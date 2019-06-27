@@ -36,7 +36,7 @@ public class GeocodingAdressGoogleMapsAPI {
         location = location.getJSONObject("location");
         longitude = location.getDouble("lng");// долгота
         latitude = location.getDouble("lat");// широта
-        System.out.println(String.format("%f,%f", latitude, longitude));// итоговая широта и долгота
+        //System.out.println(String.format("%f,%f", latitude, longitude));// итоговая широта и долгота
     }
 
     public double getlongitude(){
