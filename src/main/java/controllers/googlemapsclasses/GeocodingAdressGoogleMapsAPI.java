@@ -1,3 +1,5 @@
+
+
 package controllers.googlemapsclasses;
 
 import com.google.common.collect.Maps;
@@ -12,13 +14,13 @@ public class GeocodingAdressGoogleMapsAPI {
 
     private Map<String, String> params;
     private String baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";// путь к Geocoding API по HTTP
-    private String KEY_GOOGLE_API;
+    private String KEY_GOOGLE_API = "";
 
-    private double longitude; //долгота
-    private double latitude;//широта
-    private String adress;//адресс
+    private double longitude = 0; //долгота
+    private double latitude = 0;//широта
+    private String adress = "";//адресс
 
-    enum selectionTypeAdress {address, latlng}
+    private enum selectionTypeAdress {address, latlng}
 
     public GeocodingAdressGoogleMapsAPI(String KEY_GOOGLE_API) throws JSONException, IOException {
         this.KEY_GOOGLE_API = KEY_GOOGLE_API;
@@ -55,7 +57,7 @@ public class GeocodingAdressGoogleMapsAPI {
     private String calculateJSONRequest(String enumTypeCoordinates, String сoordinates) throws IOException, JSONException {
        
         params = Maps.newHashMap();
-        //params.put("language", "ru");// язык данных, на котором мы хотим получить
+        params.put("language", "ru");// язык данных, на котором мы хотим получить
         params.put("key", KEY_GOOGLE_API);
         params.put("sensor", "false");// исходит ли запрос на геокодирование от устройства с датчиком местоположения
         // текстовое значение широты/долготы, для которого следует получить ближайший понятный человеку адрес, долгота и
@@ -69,8 +71,6 @@ public class GeocodingAdressGoogleMapsAPI {
 
 
     public CurrentPoint getCurrentPointViaAdress(String adress) throws IOException, JSONException {
-
-        //calculateJSONRequest(selectionTypeAdress.adress.toString(), adress);
         calculateLongitudeAndLatitude(adress);
 
         CurrentPoint currentPoint = new CurrentPoint(getlongitude(),
@@ -82,8 +82,6 @@ public class GeocodingAdressGoogleMapsAPI {
     }
 
     public CurrentPoint getCurrentPointViaCoordinates(String сoordinates) throws IOException, JSONException {
-
-        calculateJSONRequest(selectionTypeAdress.latlng.toString(), сoordinates);
         calculateAdress(сoordinates);
 
         CurrentPoint currentPoint = new CurrentPoint(getlongitude(),

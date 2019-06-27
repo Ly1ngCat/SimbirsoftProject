@@ -41,7 +41,7 @@ public class MarkersExample extends MapView {
                             infoWindow.close();
                             final Marker marker = new Marker(map);
                             marker.setPosition(mouseEvent.latLng());
-
+                            System.out.print(marker.getPosition());
                             marker.addEventListener("click", new MapMouseEvent() {
                                 @Override
                                 public void onEvent(MouseEvent mouseEvent) {

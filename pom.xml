@@ -9,6 +9,7 @@
     <packaging>jar</packaging>
     <name>SimbirsoftProject</name>
     <dependencies>
+
         <!--SDV_start_____________________________________-->
         <dependency>
             <groupId>org.jsoup</groupId>
