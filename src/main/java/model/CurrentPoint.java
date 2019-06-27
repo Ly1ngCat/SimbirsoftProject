@@ -3,16 +3,16 @@ package model;
 import java.sql.Timestamp;
 
 public class CurrentPoint {
-    public double pointDolgota;
-    public double pointShirota;
+    public double longitude;
+    public double latitude;
     public Timestamp currentDate;
     public String adressString;
 
-    public CurrentPoint(double pointDolgota, double pointShirota, Timestamp currentDate, String adressString) {
-        this.pointDolgota = pointDolgota;
-        this.pointShirota = pointShirota;
-        this.currentDate = currentDate;
+    public CurrentPoint(double longitude, double latitude,  String adressString, Timestamp currentDate) {
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.adressString = adressString;
+        this.currentDate = currentDate;
     }
 }
 
