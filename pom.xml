@@ -26,8 +26,15 @@
             <artifactId>json</artifactId>
             <version>20090211</version>
         </dependency>
+        <!--SDV_end_____________________________________-->
+        <!--PIV_start___________________________________-->
+        <dependency>
+            <groupId>net.aksingh</groupId>
+            <artifactId>owm-japis</artifactId>
+            <version>2.5.3.0</version>
+        </dependency>
+        <!--PIV_end_____________________________________-->
     </dependencies>
-    <!--SDV_end_____________________________________-->
 
     <build>
         <plugins>

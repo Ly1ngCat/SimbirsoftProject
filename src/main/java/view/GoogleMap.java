@@ -1,23 +1,14 @@
 package view;
 
-import com.teamdev.jxmaps.ControlPosition;
-import com.teamdev.jxmaps.InfoWindow;
-import com.teamdev.jxmaps.LatLng;
-import com.teamdev.jxmaps.Map;
-import com.teamdev.jxmaps.MapMouseEvent;
-import com.teamdev.jxmaps.MapOptions;
-import com.teamdev.jxmaps.MapReadyHandler;
-import com.teamdev.jxmaps.MapStatus;
-import com.teamdev.jxmaps.MapTypeControlOptions;
-import com.teamdev.jxmaps.Marker;
-import com.teamdev.jxmaps.MouseEvent;
+import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
-public class MarkersExample extends MapView {
-    public MarkersExample() {
+public class GoogleMap extends MapView {
+    public GoogleMap() {
         setOnMapReadyHandler(new MapReadyHandler() {
 
             public void onMapReady(MapStatus status) {
@@ -35,17 +26,30 @@ public class MarkersExample extends MapView {
                     final InfoWindow infoWindow = new InfoWindow(map);
                     infoWindow.setContent("Нажмите на карту чтобы поставить маркер, нажмите на маркер чтобы удалить его.");
                     infoWindow.open(map, marker);
+
+                    HashMap<LatLng, Double> hashMap = new HashMap<>();
+
                     map.addEventListener("click", new MapMouseEvent() {
                         @Override
                         public void onEvent(MouseEvent mouseEvent) {
                             infoWindow.close();
                             final Marker marker = new Marker(map);
                             marker.setPosition(mouseEvent.latLng());
-                            System.out.print(marker.getPosition());
+
+                            LatLng coordinates = marker.getPosition();
+
+                            double time = 0;
+                            hashMap.put(coordinates,time);
+                            System.out.println(hashMap);
+
+
+
                             marker.addEventListener("click", new MapMouseEvent() {
                                 @Override
                                 public void onEvent(MouseEvent mouseEvent) {
                                     marker.remove();
+                                    hashMap.remove(coordinates);
+                                    System.out.println(hashMap);
                                 }
                             });
                         }
@@ -56,7 +60,7 @@ public class MarkersExample extends MapView {
     }
 
     public static void Interface (String[] args) {
-        final MarkersExample sample = new MarkersExample();
+        final GoogleMap sample = new GoogleMap();
 
         JFrame frame = new JFrame("Travel Map");
 
