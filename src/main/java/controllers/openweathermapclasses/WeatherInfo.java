@@ -3,6 +3,7 @@ package controllers.openweathermapclasses;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import model.CurrentPoint;
 import net.aksingh.owmjapis.core.OWM;
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.CurrentWeather;
@@ -25,9 +26,12 @@ public class WeatherInfo
     public static Double latitude;
     private Date visitDate;
 
-    public WeatherInfo(Date visitDate)
+    public WeatherInfo(CurrentPoint point)
     {
-        this.visitDate=visitDate;
+        longitude=point.longitude;
+        latitude=point.latitude;
+        //this.visitDate=visitDate;
+        this.visitDate=new Date();
     }
 
     public void getDressRecommendation() //recommends dress in accordance with weather
@@ -40,8 +44,8 @@ public class WeatherInfo
 
     }
 
-    public static void Start() throws APIException, IOException, JSONException {
-        WeatherInfo gwi=new WeatherInfo(new Date());
+    public static void Start(CurrentPoint point) throws APIException, IOException, JSONException {
+        WeatherInfo gwi=new WeatherInfo(point);
         // declaring object of "OWM" class
         String apiKey="1663d3f111783366b1c00872fb6ec203";
         String urlForecast="https://api.openweathermap.org/data/2.5/forecast?";
@@ -49,26 +53,27 @@ public class WeatherInfo
         OWM owm = new OWM(apiKey);
 
         // getting current weather data for the "Ulyanovsk" city
-        CurrentWeather cwd = owm.currentWeatherByCityName(cityName);
+        //CurrentWeather cwd = owm.currentWeatherByCityName(cityName);
+        CurrentWeather cwd = owm.currentWeatherByCoords(latitude, longitude);
 
         // checking data retrieval was successful or not
         if (cwd.hasRespCode() && cwd.getRespCode() == 200)
         {
 
             // checking if city name is available
-            if (cwd.hasCityName())
+            if (cwd.hasCoordData())
             {
                 //printing city name from the retrieved data
                 System.out.println("City: " + cwd.getCityName()+" "+cwd.getCoordData().getLatitude()
                         + " "+cwd.getCoordData().getLongitude() +"\nTime: "+gwi.visitDate);
-                longitude=cwd.getCoordData().getLongitude();
-                latitude=cwd.getCoordData().getLatitude();
+                /*longitude=cwd.getCoordData().getLongitude();
+                latitude=cwd.getCoordData().getLatitude();*/
                 params.put("appid",apiKey);
                 params.put("units","metric");
                 params.put("lat",latitude.toString());
                 params.put("lon",longitude.toString());
-                final String url=urlForecast+JsonReader.encodeParams(params);
-                System.out.println(url);
+                /*final String url=urlForecast+JsonReader.encodeParams(params);
+                //System.out.println(url);
                 final long forecastDate=1561741846; //UNIX time of 28.06.2019 17:10:46 GMT(0)
                 long currentDate = System.currentTimeMillis()/1000; //current time
                 final JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
@@ -77,7 +82,7 @@ public class WeatherInfo
                 JSONObject locationForecast = response.getJSONArray("list").getJSONObject((int)di);
                 System.out.println("The predicted temperature for date "
                         +new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date(forecastDate*1000))
-                        +" in "+cwd.getCityName()+" is "+locationForecast.getJSONObject("main").getDouble("temp"));
+                        +" in "+cwd.getCityName()+" is "+locationForecast.getJSONObject("main").getDouble("temp"));*/
             }
 
             // checking if max. temp. and min. temp. is available
