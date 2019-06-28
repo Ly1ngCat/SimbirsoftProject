@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws APIException, JSONException, IOException {
 
-        //GoogleMap.Interface(args);
+        GoogleMap.Interface(args);
         //WeatherInfo.Start();
     }
 }

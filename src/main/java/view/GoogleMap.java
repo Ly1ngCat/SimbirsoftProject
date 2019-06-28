@@ -1,5 +1,6 @@
 package view;
 
+import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
 
@@ -13,6 +14,10 @@ public class GoogleMap extends MapView {
 
             public void onMapReady(MapStatus status) {
                 if (status == MapStatus.MAP_STATUS_OK) {
+
+                    HashMap<LatLng, CurrentPoint> hashMap = new HashMap<>();
+
+
                     final Map map = getMap();
                     MapOptions options = new MapOptions();
                     MapTypeControlOptions controlOptions = new MapTypeControlOptions();
@@ -22,12 +27,11 @@ public class GoogleMap extends MapView {
                     map.setCenter(new LatLng(54.33346, 48.384337));
                     map.setZoom(9.0);
                     Marker marker = new Marker(map);
-                    marker.setPosition(map.getCenter());
                     final InfoWindow infoWindow = new InfoWindow(map);
                     infoWindow.setContent("Нажмите на карту чтобы поставить маркер, нажмите на маркер чтобы удалить его.");
                     infoWindow.open(map, marker);
 
-                    HashMap<LatLng, Double> hashMap = new HashMap<>();
+
 
                     map.addEventListener("click", new MapMouseEvent() {
                         @Override
@@ -35,14 +39,14 @@ public class GoogleMap extends MapView {
                             infoWindow.close();
                             final Marker marker = new Marker(map);
                             marker.setPosition(mouseEvent.latLng());
-
                             LatLng coordinates = marker.getPosition();
+                            double latitude = coordinates.getLat();
+                            double longitude = coordinates.getLng();
 
-                            double time = 0;
-                            hashMap.put(coordinates,time);
+
+
+                            hashMap.put(coordinates, new CurrentPoint(longitude,latitude,null,null));
                             System.out.println(hashMap);
-
-
 
                             marker.addEventListener("click", new MapMouseEvent() {
                                 @Override
