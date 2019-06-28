@@ -1,15 +1,20 @@
 package view;
 
+import constants.Constant;
+import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
+import org.json.JSONException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class GoogleMap extends MapView {
-    public GoogleMap() {
+    public GoogleMap() throws IOException, JSONException {
+        GeocodingAdressGoogleMapsAPI geocodingAdressGoogleMapsAPI = new GeocodingAdressGoogleMapsAPI(Constant.KEY_GOOGLE_API);
         setOnMapReadyHandler(new MapReadyHandler() {
 
             public void onMapReady(MapStatus status) {
@@ -44,8 +49,18 @@ public class GoogleMap extends MapView {
                             double longitude = coordinates.getLng();
 
 
+                            try {
+                                geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-                            hashMap.put(coordinates, new CurrentPoint(longitude,latitude,null,null));
+
+                            hashMap.put(coordinates, new CurrentPoint(longitude,latitude,
+                                    geocodingAdressGoogleMapsAPI.getAdress(),null));
+
                             System.out.println(hashMap);
 
                             marker.addEventListener("click", new MapMouseEvent() {
@@ -63,7 +78,7 @@ public class GoogleMap extends MapView {
         });
     }
 
-    public static void Interface (String[] args) {
+    public static void Interface (String[] args) throws IOException, JSONException {
         final GoogleMap sample = new GoogleMap();
 
         JFrame frame = new JFrame("Travel Map");
