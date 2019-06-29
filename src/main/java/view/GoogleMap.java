@@ -1,6 +1,7 @@
 package view;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
+import com.teamdev.jxmaps.Map;
 import constants.Constant;
 import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
 import model.CurrentPoint;
@@ -23,7 +24,7 @@ import java.util.*;
 import model.Weather;
 
 public class GoogleMap extends MapView {
-    public GoogleMap() throws IOException, JSONException {
+    private GoogleMap() throws IOException, JSONException {
 
         FileInputStream fisConfig = new FileInputStream("src/main/resources/config.properties");
         Properties propertyConfig = new Properties();
@@ -52,63 +53,65 @@ public class GoogleMap extends MapView {
                     infoWindow.setContent("Нажмите на карту чтобы поставить маркер, нажмите на маркер чтобы удалить его.");
                     infoWindow.open(map, marker);
 
-
-
                     map.addEventListener("click", new MapMouseEvent() {
                         @Override
                         public void onEvent(MouseEvent mouseEvent) {
-                            infoWindow.close();
-                            final Marker marker = new Marker(map);
-                            marker.setPosition(mouseEvent.latLng());
-                            LatLng coordinates = marker.getPosition();
-                            double latitude = coordinates.getLat();
-                            double longitude = coordinates.getLng();
+                            isDateTimeSet = false;
+                            DialogDateTimePicker dialogDateTimePicker = new DialogDateTimePicker();
+                            dialogDateTimePicker.setVisible(true);
+                            if (isDateTimeSet){
+                                infoWindow.close();
+                                final Marker marker = new Marker(map);
+                                marker.setPosition(mouseEvent.latLng());
+                                LatLng coordinates = marker.getPosition();
+                                double latitude = coordinates.getLat();
+                                double longitude = coordinates.getLng();
 
-                            geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
+                                geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
 
 
-<<<<<<< Updated upstream
-                            hashMap.put(coordinates, new CurrentPoint(longitude,latitude,
-                                    geocodingAdressGoogleMapsAPI.getAdress(),null));
-=======
-                            LocalDateTime DateTime =  LocalDateTime.ofInstant(Instant.ofEpochMilli(1561890755), ZoneId.systemDefault());
+                                hashMap.put(coordinates, new CurrentPoint(longitude,latitude,
+                                        geocodingAdressGoogleMapsAPI.getAdress(),null));
+                                LocalDateTime DateTime =  LocalDateTime.ofInstant(Instant.ofEpochMilli(1561890755),
+                                        ZoneId.systemDefault());
 
-                            CurrentPoint point=new CurrentPoint(longitude,
-                                    latitude,
-                                    geocodingAdressGoogleMapsAPI.getAdress(),
-                                    DateTime);
+                                CurrentPoint point=new CurrentPoint(longitude,
+                                        latitude,
+                                        geocodingAdressGoogleMapsAPI.getAdress(),
+                                        DateTime);
 
                             /*CurrentPoint point=new CurrentPoint(longitude,
                                     latitude,
                                     geocodingAdressGoogleMapsAPI.getAdress(),
                                     new Timestamp(1561890755));*/
 
-                            //new Timestamp(1561890755)
+                                //new Timestamp(1561890755)
 
-                            hashMap.put(coordinates,point);
->>>>>>> Stashed changes
+                                hashMap.put(coordinates,point);
 
-                            jTextField.setText(geocodingAdressGoogleMapsAPI.getAdress());
-                            System.out.println(hashMap);
-                            DialogDateTimePicker dialogDateTimePicker = new DialogDateTimePicker();
-                            dialogDateTimePicker.setVisible(true);
+                                jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
+                                System.out.println(hashMap);
 
-                            marker.addEventListener("click", new MapMouseEvent() {
-                                @Override
-                                public void onEvent(MouseEvent mouseEvent) {
-                                    marker.remove();
-                                    hashMap.remove(coordinates);
-                                    System.out.println(hashMap);
-                                }
-                            });
+
+                                marker.addEventListener("click", new MapMouseEvent() {
+                                    @Override
+                                    public void onEvent(MouseEvent mouseEvent) {
+                                        marker.remove();
+                                        hashMap.remove(coordinates);
+                                        System.out.println(hashMap);
+                                    }
+                                });
+                            }
+
                         }
                     });
                 }
             }
         });
     }
-    private static JTextField jTextField;
+    private static JTextArea jTextArea;
     private static JFrame frame;
+    private static boolean isDateTimeSet = false;
     public static void Interface (String[] args) throws IOException, JSONException {
 
         final GoogleMap sample = new GoogleMap();
@@ -138,11 +141,13 @@ public class GoogleMap extends MapView {
         jscrlp.setPreferredSize(new Dimension(300,300));
         c.gridx = 0;
         c.gridy = 0;
-        jTextField = new JTextField("",30);
-        jPanel.add(new JLabel("Точка 1"),c);
+        jTextArea = new JTextArea("",3,30);
+        jTextArea.setLineWrap(true);
+        jTextArea.setFont(new Font("Arial", Font.ITALIC, 14));
+        jPanel.add(new JLabel("Выбранное местоположение"),c);
         c.gridx = 0;
         c.gridy = 1;
-        jPanel.add(jTextField,c);
+        jPanel.add(jTextArea,c);
         c.gridx = 0;
         c.gridy = 2;
         jPanel.add(jscrlp,c);
@@ -172,6 +177,7 @@ public class GoogleMap extends MapView {
                 String time = dateTimePicker.getTimePicker().toString();
                 if ((!date.equals(""))&&(!time.equals(""))){
                     System.out.println(date + " / " + time);
+                    isDateTimeSet = true;
                     hide();
                 }
                 else
