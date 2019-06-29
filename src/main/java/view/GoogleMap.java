@@ -10,6 +10,7 @@ import org.json.JSONException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -23,7 +24,14 @@ import model.Weather;
 
 public class GoogleMap extends MapView {
     public GoogleMap() throws IOException, JSONException {
-        GeocodingAdressGoogleMapsAPI geocodingAdressGoogleMapsAPI = new GeocodingAdressGoogleMapsAPI(Constant.KEY_GOOGLE_API);
+
+        FileInputStream fisConfig = new FileInputStream("src/main/resources/config.properties");
+        Properties propertyConfig = new Properties();
+        propertyConfig.load(fisConfig);
+
+        GeocodingAdressGoogleMapsAPI geocodingAdressGoogleMapsAPI =
+                new GeocodingAdressGoogleMapsAPI(propertyConfig.getProperty("KeyGoogleAPI"));
+
         setOnMapReadyHandler(new MapReadyHandler() {
 
             public void onMapReady(MapStatus status) {
