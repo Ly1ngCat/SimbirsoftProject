@@ -68,10 +68,11 @@ public class GoogleMap extends MapView {
                                 double longitude = coordinates.getLng();
 
                                 geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
+                                currentPoint.setLatitude(latitude);
+                                currentPoint.setLongitude(longitude);
+                                currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
 
-
-                                hashMap.put(coordinates, new CurrentPoint(longitude,latitude,
-                                        geocodingAdressGoogleMapsAPI.getAdress(),null));
+                                hashMap.put(coordinates, currentPoint);
                                 LocalDateTime DateTime =  LocalDateTime.ofInstant(Instant.ofEpochMilli(1561890755),
                                         ZoneId.systemDefault());
 
@@ -112,6 +113,7 @@ public class GoogleMap extends MapView {
     private static JTextArea jTextArea;
     private static JFrame frame;
     private static boolean isDateTimeSet = false;
+    private static CurrentPoint currentPoint;
     public static void Interface (String[] args) throws IOException, JSONException {
 
         final GoogleMap sample = new GoogleMap();
@@ -178,6 +180,8 @@ public class GoogleMap extends MapView {
                 if ((!date.equals(""))&&(!time.equals(""))){
                     System.out.println(date + " / " + time);
                     isDateTimeSet = true;
+                    currentPoint = new CurrentPoint();
+                    currentPoint.setForecastDate(dateTimePicker.getDateTimePermissive());
                     hide();
                 }
                 else
