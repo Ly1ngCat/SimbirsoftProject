@@ -1,5 +1,6 @@
 package view;
 
+import com.github.lgooddatepicker.components.DateTimePicker;
 import constants.Constant;
 import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
 import model.CurrentPoint;
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class GoogleMap extends MapView {
@@ -21,7 +23,6 @@ public class GoogleMap extends MapView {
                 if (status == MapStatus.MAP_STATUS_OK) {
 
                     HashMap<LatLng, CurrentPoint> hashMap = new HashMap<>();
-
 
                     final Map map = getMap();
                     MapOptions options = new MapOptions();
@@ -48,7 +49,6 @@ public class GoogleMap extends MapView {
                             double latitude = coordinates.getLat();
                             double longitude = coordinates.getLng();
 
-
                             try {
                                 geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
                             } catch (JSONException e) {
@@ -61,7 +61,10 @@ public class GoogleMap extends MapView {
                             hashMap.put(coordinates, new CurrentPoint(longitude,latitude,
                                     geocodingAdressGoogleMapsAPI.getAdress(),null));
 
+                            jTextField.setText(geocodingAdressGoogleMapsAPI.getAdress());
                             System.out.println(hashMap);
+                            DialogDateTimePicker dialogDateTimePicker = new DialogDateTimePicker();
+                            dialogDateTimePicker.setVisible(true);
 
                             marker.addEventListener("click", new MapMouseEvent() {
                                 @Override
@@ -77,16 +80,79 @@ public class GoogleMap extends MapView {
             }
         });
     }
-
+    private static JTextField jTextField;
+    private static JFrame frame;
     public static void Interface (String[] args) throws IOException, JSONException {
+
         final GoogleMap sample = new GoogleMap();
+        frame = new JFrame("Travel Map");
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        Object[] headers = { "Name", "Surname", "Telephone" };
 
-        JFrame frame = new JFrame("Travel Map");
-
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //Массив содержащий информацию для таблицы
+        Object[][] data = {
+                { "John", "Smith", "1112221" },
+                { "Ivan", "Black", "2221111" },
+                { "George", "White", "3334444" },
+                { "Bolvan", "Black", "2235111" },
+                { "Serg", "Black", "2221511" },
+                { "Pussy", "Black", "2221111" },
+                { "Tonya", "Red", "2121111" },
+                { "Elise", "Green", "2321111" },
+        };
         frame.add(sample, BorderLayout.CENTER);
-        frame.setSize(800, 500);
+        JPanel jPanel = new JPanel();
+        GridBagLayout gbl = new GridBagLayout();
+        jPanel.setLayout(gbl);
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5,3,4,2);
+        JTable jTable = new JTable(data,headers);
+        JScrollPane jscrlp = new JScrollPane(jTable);
+        jscrlp.setPreferredSize(new Dimension(300,300));
+        c.gridx = 0;
+        c.gridy = 0;
+        jTextField = new JTextField("",30);
+        jPanel.add(new JLabel("Точка 1"),c);
+        c.gridx = 0;
+        c.gridy = 1;
+        jPanel.add(jTextField,c);
+        c.gridx = 0;
+        c.gridy = 2;
+        jPanel.add(jscrlp,c);
+        frame.add(jPanel, BorderLayout.EAST);
+        frame.setPreferredSize(new Dimension(dimension.width,dimension.height));
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.pack();
+    }
+
+    static class DialogDateTimePicker extends JDialog{
+        public DialogDateTimePicker(){
+            super(frame,"Выбор даты и времени", true);
+            setLayout(new FlowLayout());
+            JLabel jLabel = new JLabel("Выберите дату и время");
+            DateTimePicker dateTimePicker = new DateTimePicker();
+            JButton jButton = new JButton("Выбрать");
+            add(jLabel);
+            add(dateTimePicker);
+            add(jButton);
+            setBounds(MouseInfo.getPointerInfo().getLocation().x,MouseInfo.getPointerInfo().getLocation().y,350,100);
+
+            jButton.addActionListener(e -> {
+                String date = dateTimePicker.getDatePicker().toString();
+                String time = dateTimePicker.getTimePicker().toString();
+                if ((!date.equals(""))&&(!time.equals(""))){
+                    System.out.println(date + " / " + time);
+                    hide();
+                }
+                else
+                {
+                    System.out.println("Тут должен быть Error Dialog");
+                }
+
+            });
+        }
     }
 }
