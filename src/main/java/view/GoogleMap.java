@@ -49,13 +49,7 @@ public class GoogleMap extends MapView {
                             double latitude = coordinates.getLat();
                             double longitude = coordinates.getLng();
 
-                            try {
-                                geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
 
 
                             hashMap.put(coordinates, new CurrentPoint(longitude,latitude,
