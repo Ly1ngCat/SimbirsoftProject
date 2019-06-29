@@ -3,18 +3,17 @@ package view;
 import com.teamdev.jxmaps.Map;
 import constants.Constant;
 import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
-import controllers.openweathermapclasses.WeatherInfo;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
-import net.aksingh.owmjapis.api.APIException;
-import net.aksingh.owmjapis.model.param.Weather;
 import org.json.JSONException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
+import model.Weather;
 
 public class GoogleMap extends MapView {
     public static HashMap<LatLng, CurrentPoint> hashMap;
@@ -62,14 +61,13 @@ public class GoogleMap extends MapView {
                                 e.printStackTrace();
                             }
 
-                            CurrentPoint point=new CurrentPoint(longitude,latitude,geocodingAdressGoogleMapsAPI.getAdress(),null);
+                            CurrentPoint point=new CurrentPoint(longitude,latitude,geocodingAdressGoogleMapsAPI.getAdress(),new Timestamp(1561890755));
                             hashMap.put(coordinates,point);
 
                             System.out.println(hashMap);
                             try {
-                                WeatherInfo.Start(hashMap.get(coordinates));
-                            } catch (APIException e) {
-                                e.printStackTrace();
+                                Weather weather=new Weather(hashMap.get(coordinates));
+                                System.out.println("Current weather in "+weather.OWMcityName+" is "+weather.predictedTemp);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {

@@ -13,9 +13,5 @@ public class Main {
     public static void main(String[] args) throws APIException, JSONException, IOException {
 
         GoogleMap.Interface(args);
-        /*for (Map.Entry <LatLng, CurrentPoint> me: GoogleMap.hashMap.entrySet())
-        {
-            WeatherInfo.Start(me.getValue());
-        }*/
     }
 }
