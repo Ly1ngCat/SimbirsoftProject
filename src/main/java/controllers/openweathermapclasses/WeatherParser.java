@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class WeatherParser
 {
-    private static String apiKey="1663d3f111783366b1c00872fb6ec203";
+    private static String apiKey="1663d3f111783366b1c00872fb6ec203"; //TODO: Игорь. Сделвй выгрузку ключа из ресурсов, будут вопросы пиши
     private static String urlForecast="https://api.openweathermap.org/data/2.5/forecast?";
 
     public static HashMap<String, String> parser(CurrentPoint point) throws JSONException, IOException {
@@ -23,14 +23,14 @@ public class WeatherParser
         params.put("lat",""+point.latitude);
         params.put("lon",""+point.longitude);
         final String url=urlForecast+ JsonReader.encodeParams(params);
-        long currentDate = System.currentTimeMillis()/1000;
-        final long forecastDate=point.currentDate.getTime();
+        long currentDate = System.currentTimeMillis()/1000;//TODO: Магические числа
+        final long forecastDate=point.currentDateTime.getTime();//TODO: закоментил о чём говорил
         System.out.println(forecastDate);
         final JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
 
         HashMap<String, String> conditions=new HashMap<>();
 
-        double di=(forecastDate-currentDate)/(3600*3);
+        double di=(forecastDate-currentDate)/(3600*3); //TODO: Магические числа
         JSONObject locationForecast = response.getJSONArray("list").getJSONObject((int)di);
 
         conditions.put("cityID", response.getJSONObject("city").getString("id"));
