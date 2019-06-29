@@ -11,10 +11,8 @@ import org.json.JSONException;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-<<<<<<< Updated upstream
 import java.time.LocalDate;
 import java.util.HashMap;
-=======
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -22,7 +20,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import model.Weather;
->>>>>>> Stashed changes
 
 public class GoogleMap extends MapView {
     public GoogleMap() throws IOException, JSONException {
@@ -66,17 +63,17 @@ public class GoogleMap extends MapView {
                             hashMap.put(coordinates, new CurrentPoint(longitude,latitude,
                                     geocodingAdressGoogleMapsAPI.getAdress(),null));
 =======
-                            /*LocalDateTime DateTime =  LocalDateTime.ofInstant(Instant.ofEpochMilli(1561890755), ZoneId.systemDefault());
+                            LocalDateTime DateTime =  LocalDateTime.ofInstant(Instant.ofEpochMilli(1561890755), ZoneId.systemDefault());
 
                             CurrentPoint point=new CurrentPoint(longitude,
                                     latitude,
                                     geocodingAdressGoogleMapsAPI.getAdress(),
-                                    DateTime);*/
+                                    DateTime);
 
-                            CurrentPoint point=new CurrentPoint(longitude,
+                            /*CurrentPoint point=new CurrentPoint(longitude,
                                     latitude,
                                     geocodingAdressGoogleMapsAPI.getAdress(),
-                                    new Timestamp(1561890755));
+                                    new Timestamp(1561890755));*/
 
                             //new Timestamp(1561890755)
 

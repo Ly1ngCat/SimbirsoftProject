@@ -24,7 +24,7 @@ public class WeatherParser
         params.put("lon",""+point.longitude);
         final String url=urlForecast+ JsonReader.encodeParams(params);
         long currentDate = System.currentTimeMillis()/1000;//TODO: Магические числа
-        final long forecastDate=point.currentDateTime.getTime();//TODO: закоментил о чём говорил
+        final long forecastDate=point.forecastDate.getTime();//
         System.out.println(forecastDate);
         final JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
 
