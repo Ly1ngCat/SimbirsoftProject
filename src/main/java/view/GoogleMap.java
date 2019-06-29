@@ -13,13 +13,21 @@ import org.json.JSONException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
 public class GoogleMap extends MapView {
     public static HashMap<LatLng, CurrentPoint> hashMap;
     public GoogleMap() throws IOException, JSONException {
-        GeocodingAdressGoogleMapsAPI geocodingAdressGoogleMapsAPI = new GeocodingAdressGoogleMapsAPI(Constant.KEY_GOOGLE_API);
+
+        FileInputStream configFile = new FileInputStream("src/main/resources/config.properties");
+        Properties propertyConfig = new Properties();
+        propertyConfig.load(configFile);
+
+        GeocodingAdressGoogleMapsAPI geocodingAdressGoogleMapsAPI =
+                new GeocodingAdressGoogleMapsAPI(propertyConfig.getProperty("KeyGoogleAPI"));
+
         setOnMapReadyHandler(new MapReadyHandler() {
 
             public void onMapReady(MapStatus status) {
@@ -54,18 +62,14 @@ public class GoogleMap extends MapView {
                             double longitude = coordinates.getLng();
 
 
-                            try {
-                                geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+
+                            geocodingAdressGoogleMapsAPI.calculateAdress(latitude +  "," +longitude);
+
 
                             CurrentPoint point=new CurrentPoint(longitude,latitude,geocodingAdressGoogleMapsAPI.getAdress(),null);
                             hashMap.put(coordinates,point);
 
-                            System.out.println(hashMap);
+                            System.out.println(hashMap); //TODO: Отредач кэтч, сделай сексуальным пример тут  geocodingAdressGoogleMapsAPI.calculateAdress!!!!
                             try {
                                 WeatherInfo.Start(hashMap.get(coordinates));
                             } catch (APIException e) {
