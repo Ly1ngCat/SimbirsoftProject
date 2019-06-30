@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company>
+    <weather>
+        <clear>
+            <rule text="солнечные очки" condition="" />
+            <rule text="clear2" condition="" />
+            <rule text="clear3" condition="" />
+            <rule text="clear4" condition="" />
+        </clear>
+        <clouds>
+            <rule text="пасмурно1" condition="" />
+            <rule text="пасмурно2" condition="" />
+            <rule text="пасмурно3" condition="" />
+        </clouds>
+        <rain>
+            <rule text="зонт или дождевик" condition="" />
+            <rule text="дождливо2" condition="" />
+            <rule text="дождливо3" condition="" />
+        </rain>
+        <snow>
+            <rule text="шарф" condition="" />
+            <rule text="дождливо2" condition="" />
+            <rule text="дождливо3" condition="" />
+        </snow>
+        <thunderstorm>
+            <rule text="зонт или дождевик, поменьше металлических предметов" condition="" />
+            <rule text="дождливо2" condition="" />
+            <rule text="дождливо3" condition="" />
+        </thunderstorm>
+        <mist>
+            <rule text="дождливо1" condition="" />
+            <rule text="дождливо2" condition="" />
+            <rule text="дождливо3" condition="" />
+        </mist>
+        <squall>
+            <rule text="дождливо1" condition="" />
+            <rule text="дождливо2" condition="" />
+            <rule text="дождливо3" condition="" />
+        </squall>
+        <tornado>
+            <rule text="дождливо1" condition="" />
+            <rule text="дождливо2" condition="" />
+            <rule text="дождливо3" condition="" />
+        </tornado>
+        <ash>
+            <rule text="дождливо1" condition="" />
+            <rule text="дождливо2" condition="" />
+            <rule text="дождливо3" condition="" />
+        </ash>
+    </weather>
+</company>

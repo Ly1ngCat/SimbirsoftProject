@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company>
+    <weather>
+        <clear>
+            <rule text="солнечные очки" condition=""/>
+            <rule text="clear2" condition=""/>
+        </clear>
+        <clouds>
+            <rule text="пасмурно1" condition=""/>
+        </clouds>
+    </weather>
+    <streetTemperature>
+        <positive>
+            <rule text="легкие вещи (например, шорты, футболку, платье, босоножки)" />
+        </positive>
+        <neutral>
+            <rule text="свободные вещи (например, легкую куртку, штаны, кофту, кроссовки" />
+        </neutral>
+        <negative>
+            <rule text="теплые вещи (например, перчатки, шапку, толстую куртку, термобелье, плотные ботинки)" />
+        </negative>
+    </streetTemperature>
+
+</company>

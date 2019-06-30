@@ -1,0 +1,44 @@
+<SimbirSoft>
+    <weather>
+        <clear>
+            <rule text="солнечные очки" condition="" />
+        </clear>
+        <clouds>
+            <rule text="наушники, чтобы слушать сопливые песни" condition="" />
+        </clouds>
+        <rain>
+            <rule text="зонт или дождевик" condition="" />
+        </rain>
+        <snow>
+            <rule text="шарф" condition="" />
+        </snow>
+        <thunderstorm>
+            <rule text="зонт или дождевик, поменьше металлических предметов" condition="" />
+        </thunderstorm>
+        <mist>
+            <rule text="фонарь, чтобы привлечь болотных тварей" condition="" />
+        </mist>
+        <squall>
+            <rule text="очки для защиты глаз в шквальную погоду" condition="" />
+        </squall>
+        <tornado>
+            <rule text="Гирю весом в тонну, чтобы вас не унесло" condition="" />
+        </tornado>
+        <ash>
+            <rule text="плотный щит для защиты от вулканического пепла" condition="" />
+        </ash>
+    </weather>
+
+    <streetTemperature>
+        <positive>
+            <rule text="легкие вещи (например, шорты, футболку, платье, босоножки)" />
+        </positive>
+        <neutral>
+            <rule text="свободные вещи (например, легкую куртку, штаны, кофту, кроссовки"  />
+        </neutral>
+        <negative>
+            <rule text="теплые вещи (например, перчатки, шапку, толстую куртку, термобелье, плотные ботинки)" />
+        </negative>
+    </streetTemperature>
+
+</SimbirSoft>

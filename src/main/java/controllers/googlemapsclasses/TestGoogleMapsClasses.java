@@ -23,9 +23,9 @@ public class TestGoogleMapsClasses {
                 geocodingAdressGoogleMapsAPI.getlongitude()));// итоговая широта и долгота*/
 
 
-        DirectionSample directionSample = new DirectionSample(Constant.KEY_GOOGLE_API);
+       /* DirectionSample directionSample = new DirectionSample(Constant.KEY_GOOGLE_API);
         directionSample.calculateRoute("55.735893,37.527420",
-                "Россия, Димитровград, улица Театральная, улица Ленина 10", DirectionSample.travelModes.walking);
+                "Россия, Димитровград, улица Театральная, улица Ленина 10", DirectionSample.travelModes.walking);*/
 
     }
 }

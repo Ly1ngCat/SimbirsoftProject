@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company>
+    <погода>
+        <ясно>
+            <правило text="ясно1" job="Middle Software Developer" />
+            <правило text="ясно2" job="Middle Software Developer" />
+            <правило text="ясно3" job="Middle Software Developer" />
+            <правило text="ясно4" job="Middle Software Developer" />
+        </ясно>
+        <пасмурно>
+            <правило text="пасмурно1" job="Middle Software Developer" />
+            <правило text="пасмурно2" job="Middle Software Developer" />
+            <правило text="пасмурно3" job="Middle Software Developer" />
+        </пасмурно>
+    </погода>
+
+    <температура>
+
+    </температура>
+
+    <ветер>
+
+    </ветер>
+
+</company>

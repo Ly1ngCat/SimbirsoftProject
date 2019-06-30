@@ -17,9 +17,7 @@ public class CurrentPoint {
         this.forecastDate = forecastDate;
     }
 
-    public CurrentPoint(){
-
-    }
+    public CurrentPoint(){}
 
     public double getLongitude() {
         return longitude;
