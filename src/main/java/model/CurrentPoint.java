@@ -10,10 +10,10 @@ public class CurrentPoint {
     private LocalDateTime forecastDate;
     public String adressString = "";
 
-    public CurrentPoint(double longitude, double latitude,  String adressString, LocalDateTime forecastDate) {
+    public CurrentPoint(double longitude, double latitude,  String addressString, LocalDateTime forecastDate) {
         this.longitude = longitude;
         this.latitude = latitude;
-        this.adressString = adressString;
+        this.adressString = addressString;
         this.forecastDate = forecastDate;
     }
 

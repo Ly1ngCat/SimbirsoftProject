@@ -73,22 +73,13 @@ public class GoogleMap extends MapView {
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
 
                                 hashMap.put(coordinates, currentPoint);
-                                LocalDateTime DateTime =  LocalDateTime.ofInstant(Instant.ofEpochMilli(1561890755),
-                                        ZoneId.systemDefault());
-
-                                CurrentPoint point=new CurrentPoint(longitude,
-                                        latitude,
-                                        geocodingAdressGoogleMapsAPI.getAdress(),
-                                        DateTime);
-
-                            /*CurrentPoint point=new CurrentPoint(longitude,
-                                    latitude,
-                                    geocodingAdressGoogleMapsAPI.getAdress(),
-                                    new Timestamp(1561890755));*/
-
-                                //new Timestamp(1561890755)
-
-                                hashMap.put(coordinates,point);
+                                try {
+                                    Weather weather=new Weather(currentPoint);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
                                 jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
                                 System.out.println(hashMap);

@@ -6,27 +6,43 @@ import model.CurrentPoint;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class WeatherParser
 {
-    private static String apiKey="1663d3f111783366b1c00872fb6ec203"; //TODO: Игорь. Сделвй выгрузку ключа из ресурсов, будут вопросы пиши
-    private static String urlForecast="https://api.openweathermap.org/data/2.5/forecast?";
+    //private static String apiKey="1663d3f111783366b1c00872fb6ec203";
 
+    private static long dateToEpochSec(LocalDateTime dateTime)
+    {
+        return dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()/1000;
+    }
     public static HashMap<String, String> parser(CurrentPoint point) throws JSONException, IOException {
         Map<String, String> params= Maps.newHashMap();
-        //OWM owm = new OWM(apiKey);
-        params.put("appid",apiKey);
+        String urlForecast="https://api.openweathermap.org/data/2.5/forecast?";
+
+        FileInputStream fisConfig = new FileInputStream("src/main/resources/config.properties");
+        Properties propertyConfig = new Properties();
+        propertyConfig.load(fisConfig);
+
+        params.put("appid",propertyConfig.getProperty("OWMKey"));
         params.put("units","metric");
         params.put("lat",""+point.latitude);
         params.put("lon",""+point.longitude);
+
         final String url=urlForecast+ JsonReader.encodeParams(params);
-        long currentDate = System.currentTimeMillis()/1000;//TODO: Магические числа
-      final long forecastDate=11231414L;// point.forecastDate.getTime() закоментил Ринат, чтобы не выдавал ошибку
-       System.out.println(forecastDate);
-        final JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
+
+        long currentDate = dateToEpochSec(LocalDateTime.now());
+        long forecastDate=dateToEpochSec(point.getForecastDate());
+
+        System.out.println(forecastDate);
+        System.out.println(currentDate);
+        final JSONObject response = JsonReader.read(url); // делаем запрос к вебсервису и получаем от него ответ
 
         HashMap<String, String> conditions=new HashMap<>();
 
