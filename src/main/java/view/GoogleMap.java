@@ -161,7 +161,7 @@ public class GoogleMap extends MapView {
                 String date = dateTimePicker.getDatePicker().toString();
                 String time = dateTimePicker.getTimePicker().toString();
                 if ((!date.equals(""))&&(!time.equals(""))){
-                    if (dateTimePicker.getTimePicker().getTime().isBefore(LocalTime.now())){
+                    if (dateTimePicker.getDateTimePermissive().isBefore(LocalDateTime.now())){
                        JOptionPane.showMessageDialog(frame,"Нельзя выбрать время ранее нынешнего времени. \n" +
                                "Сейчас : " + LocalTime.now(),"Введено неправильное время",JOptionPane.ERROR_MESSAGE);
                     }
