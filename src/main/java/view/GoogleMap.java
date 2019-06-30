@@ -73,13 +73,7 @@ public class GoogleMap extends MapView {
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
 
                                 hashMap.put(coordinates, currentPoint);
-                                try {
-                                    Weather weather=new Weather(currentPoint);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                                Weather weather=new Weather(currentPoint);
 
                                 jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
                                 System.out.println(hashMap);

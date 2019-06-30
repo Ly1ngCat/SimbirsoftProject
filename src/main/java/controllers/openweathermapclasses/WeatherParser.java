@@ -16,12 +16,11 @@ import java.util.Properties;
 
 public class WeatherParser
 {
-    //private static String apiKey="1663d3f111783366b1c00872fb6ec203";
-
     private static long dateToEpochSec(LocalDateTime dateTime)
     {
         return dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()/1000;
     }
+
     public static HashMap<String, String> parser(CurrentPoint point) throws JSONException, IOException {
         Map<String, String> params= Maps.newHashMap();
         String urlForecast="https://api.openweathermap.org/data/2.5/forecast?";
@@ -29,26 +28,20 @@ public class WeatherParser
         FileInputStream fisConfig = new FileInputStream("src/main/resources/config.properties");
         Properties propertyConfig = new Properties();
         propertyConfig.load(fisConfig);
-
         params.put("appid",propertyConfig.getProperty("OWMKey"));
         params.put("units","metric");
         params.put("lat",""+point.latitude);
         params.put("lon",""+point.longitude);
 
         final String url=urlForecast+ JsonReader.encodeParams(params);
-
-        long currentDate = dateToEpochSec(LocalDateTime.now());
-        long forecastDate=dateToEpochSec(point.getForecastDate());
-
-        System.out.println(forecastDate);
-        System.out.println(currentDate);
-        final JSONObject response = JsonReader.read(url); // делаем запрос к вебсервису и получаем от него ответ
+        final JSONObject response = JsonReader.read(url); // делаем запрос к вебсервису и получаем от него ответ JSON
 
         HashMap<String, String> conditions=new HashMap<>();
+        long currentDate = dateToEpochSec(LocalDateTime.now());
+        long forecastDate=dateToEpochSec(point.getForecastDate());
+        double di=(forecastDate-currentDate)/(3600*3); //получаем нужный индекс для массива предсказаний погоды
 
-        double di=(forecastDate-currentDate)/(3600*3); //TODO: Магические числа
         JSONObject locationForecast = response.getJSONArray("list").getJSONObject((int)di);
-
         conditions.put("cityID", response.getJSONObject("city").getString("id"));
         conditions.put("cityName", response.getJSONObject("city").getString("name"));
         conditions.put("temp", locationForecast.getJSONObject("main").getString("temp"));
