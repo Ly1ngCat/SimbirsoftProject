@@ -159,6 +159,7 @@ public class GoogleMap extends MapView {
             setLayout(new FlowLayout());
             JLabel jLabel = new JLabel("Выберите дату и время");
             DateTimePicker dateTimePicker = new DateTimePicker();
+            dateTimePicker.getDatePicker().getSettings().setDateRangeLimits(LocalDate.now(),null);
             JButton jButton = new JButton("Выбрать");
             add(jLabel);
             add(dateTimePicker);
