@@ -25,7 +25,7 @@ abstract class OptionsWindow {
     protected JWindow contentWindow;
     private Dimension size;
 
-    public OptionsWindow(GoogleMap.DialogDateTimePicker parentWindow, Dimension size) {
+    public OptionsWindow(GoogleMap parentWindow, Dimension size) {
         this.size = size;
         Container parent = parentWindow.getParent();
         while (parent != null) {
