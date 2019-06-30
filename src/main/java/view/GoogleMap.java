@@ -13,13 +13,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.HashMap;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 import model.Weather;
 
@@ -160,6 +157,7 @@ public class GoogleMap extends MapView {
             JLabel jLabel = new JLabel("Выберите дату и время");
             DateTimePicker dateTimePicker = new DateTimePicker();
             dateTimePicker.getDatePicker().getSettings().setDateRangeLimits(LocalDate.now(),null);
+            //dateTimePicker.getTimePicker().
             JButton jButton = new JButton("Выбрать");
             add(jLabel);
             add(dateTimePicker);
@@ -170,15 +168,23 @@ public class GoogleMap extends MapView {
                 String date = dateTimePicker.getDatePicker().toString();
                 String time = dateTimePicker.getTimePicker().toString();
                 if ((!date.equals(""))&&(!time.equals(""))){
-                    System.out.println(date + " / " + time);
-                    isDateTimeSet = true;
-                    currentPoint = new CurrentPoint();
-                    currentPoint.setForecastDate(dateTimePicker.getDateTimePermissive());
-                    hide();
+                    if (dateTimePicker.getTimePicker().getTime().isBefore(LocalTime.now())){
+                       JOptionPane.showMessageDialog(frame,"Нельзя выбрать время ранее нынешнего времени. \n" +
+                               "Сейчас : " + LocalTime.now(),"Введено неправильное время",JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        System.out.println(date + " / " + time);
+                        isDateTimeSet = true;
+                        currentPoint = new CurrentPoint();
+                        currentPoint.setForecastDate(dateTimePicker.getDateTimePermissive());
+                        hide();
+                    }
                 }
                 else
                 {
-                    System.out.println("Тут должен быть Error Dialog");
+                    JOptionPane.showMessageDialog(frame,"Введите пожалуйста дату и " +
+                            "время нахождения в указанной точке","Не введена дата или время",JOptionPane.WARNING_MESSAGE);
                 }
 
             });
