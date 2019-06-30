@@ -7,6 +7,7 @@ import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
+import model.CurrentPointTableModel;
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -70,6 +71,8 @@ public class GoogleMap extends MapView {
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
 
                                 hashMap.put(coordinates, currentPoint);
+                                currentPoints.add(currentPoint);
+                                currentPointTableModel.fireTableDataChanged();
                                 Weather weather=new Weather(currentPoint);
 
                                 jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
@@ -95,32 +98,23 @@ public class GoogleMap extends MapView {
     private static JTextArea jTextArea;
     private static JFrame frame;
     private static boolean isDateTimeSet = false;
+    private static CurrentPointTableModel currentPointTableModel;
     private static CurrentPoint currentPoint;
+    private static ArrayList<CurrentPoint> currentPoints;
     public static void Interface (String[] args) throws IOException, JSONException {
 
         final GoogleMap sample = new GoogleMap();
         frame = new JFrame("Travel Map");
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        Object[] headers = { "Name", "Surname", "Telephone" };
-
-        //Массив содержащий информацию для таблицы
-        Object[][] data = {
-                { "John", "Smith", "1112221" },
-                { "Ivan", "Black", "2221111" },
-                { "George", "White", "3334444" },
-                { "Bolvan", "Black", "2235111" },
-                { "Serg", "Black", "2221511" },
-                { "Pussy", "Black", "2221111" },
-                { "Tonya", "Red", "2121111" },
-                { "Elise", "Green", "2321111" },
-        };
         frame.add(sample, BorderLayout.CENTER);
         JPanel jPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         jPanel.setLayout(gbl);
+        currentPoints = new ArrayList<>();
+        currentPointTableModel = new CurrentPointTableModel(currentPoints);
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5,3,4,2);
-        JTable jTable = new JTable(data,headers);
+        JTable jTable = new JTable(currentPointTableModel);
         JScrollPane jscrlp = new JScrollPane(jTable);
         jscrlp.setPreferredSize(new Dimension(300,300));
         c.gridx = 0;
