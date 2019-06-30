@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class CurrentPointTableModel extends AbstractTableModel {
     ArrayList<CurrentPoint> currentPoints;
 
-
     public CurrentPointTableModel(ArrayList<CurrentPoint> currentPoints){
         super();
         this.currentPoints = currentPoints;
