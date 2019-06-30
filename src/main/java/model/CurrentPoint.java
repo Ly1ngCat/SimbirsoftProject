@@ -2,13 +2,31 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class CurrentPoint {
+public class CurrentPoint implements Comparable<CurrentPoint>{
     public double longitude = 0;
     public double latitude = 0;
     private LocalDateTime forecastDate;
     public String adressString = "";
+    public Weather weather=null;
 
-    public CurrentPoint(double longitude, double latitude,  String addressString, LocalDateTime forecastDate) {
+    @Override
+    public String toString()
+    {
+        return "CurrentPoint{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", forecastDate=" + forecastDate +
+                ", adressString='" + adressString + '\'' +
+                '}';
+    }
+
+    @Override
+    public int compareTo(CurrentPoint pointToCompare)
+    {
+        return this.forecastDate.compareTo(pointToCompare.getForecastDate());
+    }
+
+    public CurrentPoint(double longitude, double latitude, String addressString, LocalDateTime forecastDate) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.adressString = addressString;
@@ -47,6 +65,10 @@ public class CurrentPoint {
 
     public void setAdressString(String adressString) {
         this.adressString = adressString;
+    }
+    public void setWeather()
+    {
+        this.weather=new Weather(this);
     }
 }
 

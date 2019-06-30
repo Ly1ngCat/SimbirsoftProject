@@ -9,6 +9,9 @@
         <rain>
             <rule text="зонт или дождевик" condition="" />
         </rain>
+        <drizzle>
+            <rule text="зонт или дождевик" condition="" />
+        </drizzle>
         <snow>
             <rule text="шарф" condition="" />
         </snow>
@@ -18,6 +21,21 @@
         <mist>
             <rule text="фонарь, чтобы привлечь болотных тварей" condition="" />
         </mist>
+        <fog>
+            <rule text="фонарь, чтобы привлечь болотных тварей" condition="" />
+        </fog>
+        <smoke>
+            <rule text="фонарь, чтобы привлечь болотных тварей" condition="" />
+        </smoke>
+        <haze>
+            <rule text="фонарь, чтобы привлечь болотных тварей" condition="" />
+        </haze>
+        <dust>
+            <rule text="Куфию, чтобы прикрыться от песчаных бурь" condition="" />
+        </dust>
+        <sand>
+            <rule text="Куфию, чтобы прикрыться от песчаных бурь" condition="" />
+        </sand>
         <squall>
             <rule text="очки для защиты глаз в шквальную погоду" condition="" />
         </squall>

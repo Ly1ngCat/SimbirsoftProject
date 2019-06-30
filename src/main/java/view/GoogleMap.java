@@ -2,11 +2,10 @@ package view;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 import com.teamdev.jxmaps.Map;
-import com.teamdev.jxmaps.examples.GeocoderExample;
 import com.teamdev.jxmaps.examples.MapOptionsExample;
 
-import constants.Constant;
 import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
+import controllers.workerXML.RecommendationParser;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
@@ -16,20 +15,31 @@ import org.json.JSONException;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.*;
 import java.util.HashMap;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
 
 import model.Weather;
+import controllers.workerXML.RecommendationParser;
 
 public class GoogleMap extends MapView {
     private OptionsWindow optionsWindow;
+
+    public List<ArrayList<String>> allRecommendations(ArrayList<CurrentPoint> points)
+    {
+        Collections.sort(points); //сортируем массив маркеров по ДАТЕ в порядке возрастания
+        List<ArrayList<String>> allRecs=new ArrayList<>();
+        for (int i=0; i< points.size(); i++)
+        {
+            allRecs.add(RecommendationParser.getRecomendation(points.get(i).weather.weatherType.toLowerCase(),
+                    points.get(i).weather.predictedTemp));
+        }
+        return allRecs;
+    }
 
     private GoogleMap() throws IOException, JSONException {
 
@@ -78,22 +88,29 @@ public class GoogleMap extends MapView {
                                 currentPoint.setLatitude(latitude);
                                 currentPoint.setLongitude(longitude);
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
+                                currentPoint.setWeather();
 
                                 hashMap.put(coordinates, currentPoint);
                                 currentPoints.add(currentPoint);
                                 currentPointTableModel.fireTableDataChanged();
-                                Weather weather = new Weather(currentPoint);
-
+                                //Weather weather = new Weather(currentPoint);
                                 jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
-                                System.out.println(hashMap);
+
+                                //System.out.println(hashMap);
+                                System.out.println(currentPoints);
+                                /*Collections.sort(currentPoints);
+                                System.out.println(currentPoints);*/
 
 
                                 marker.addEventListener("click", new MapMouseEvent() {
                                     @Override
                                     public void onEvent(MouseEvent mouseEvent) {
                                         marker.remove();
-                                        hashMap.remove(coordinates);
-                                        System.out.println(hashMap);
+                                        currentPoints.remove(currentPoint);
+                                        //System.out.println(currentPoints);
+                                        System.out.println(allRecommendations(currentPoints));
+                                        //hashMap.remove(coordinates);
+                                        //System.out.println(hashMap);
                                     }
                                 });
                             }
