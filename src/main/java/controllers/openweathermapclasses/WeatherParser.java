@@ -40,6 +40,17 @@ public class WeatherParser
         long currentDate = dateToEpochSec(LocalDateTime.now());
         long forecastDate=dateToEpochSec(point.getForecastDate());
         double di=(forecastDate-currentDate)/(3600*3); //получаем нужный индекс для массива предсказаний погоды
+        if (di<0) //если выбрали дату раньше, чем текущая, то берем текущий прогноз погоды
+        {
+            di=0;
+        }
+        else
+        {
+            if (di>40) //если выбрали дату позже, чем 5 суток, то берем самый последний доступный прогноз
+            {
+                di=39;
+            }
+        }
 
         JSONObject locationForecast = response.getJSONArray("list").getJSONObject((int)di);
         conditions.put("cityID", response.getJSONObject("city").getString("id"));
