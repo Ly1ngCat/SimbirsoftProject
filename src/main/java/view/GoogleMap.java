@@ -15,6 +15,7 @@ import org.json.JSONException;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -25,8 +26,6 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 
-import model.Weather;
-import controllers.workerXML.RecommendationParser;
 
 public class GoogleMap extends MapView {
     
@@ -164,6 +163,13 @@ public class GoogleMap extends MapView {
         c.gridx = 0;
         c.gridy = 2;
         jPanel.add(jscrlp, c);
+        for (int i=0;i<jTable.getColumnModel().getColumnCount();i++){
+            TableColumn tableColumn = jTable.getColumnModel().getColumn(i);
+            switch (i){
+                case 0: tableColumn.setMaxWidth(30); break;
+                case 1: tableColumn.setPreferredWidth(140);
+            }
+        }
         JButton getRecommendationButton = new JButton("Получить рекомендации");
         c.gridx = 0;
         c.gridy = 3;
