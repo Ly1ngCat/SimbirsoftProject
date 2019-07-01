@@ -172,7 +172,7 @@ public class GoogleMap extends MapView {
         }
         JButton getRecommendationButton = new JButton("Получить рекомендации");
         getRecommendationButton.addActionListener(e->{
-            showAndGetRecommendation(sample.allRecs,currentPoints);
+            showAndGetRecommendation(sample.allRecommendations(currentPoints),currentPoints);
         });
 
         c.gridx = 0;
@@ -194,17 +194,17 @@ public class GoogleMap extends MapView {
         recomendFrame.setSize(new Dimension(600,800));
         recomendFrame.setLayout(new FlowLayout());
         recomendFrame.add(recomendArea);
-        recomendArea.append("Для путешествия в следующие места вам понадобятся: \n");
+        recomendArea.append("Для путешествия в следующие места вам понадобятся: \n\n");
         for (int i=0;i<currentPoints.size();i++)
         {
             recomendArea.append("Дата: "+currentPoints.get(i).getForecastDate()
                     .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
-                    +". Место: "+currentPoints.get(i).getAdressString()
-                    +". Температура: "+currentPoints.get(i).weather.predictedTemp+" C"
-                    +". Ветер: "+currentPoints.get(i).weather.windSpeed+" м/с.");
-            recomendArea.append("Рекомендуем взять с собой следующие вещи:");
-            recomendArea.append("Одежду: "+allRecs.get(i).get(1));
-            recomendArea.append("Аксессуары: "+allRecs.get(i).get(0));
+                    +".\nМесто: "+currentPoints.get(i).getAdressString()
+                    +".\nТемпература: "+currentPoints.get(i).weather.predictedTemp+" C"
+                    +".\nВетер: "+currentPoints.get(i).weather.windSpeed+" м/с.");
+            recomendArea.append("\nРекомендуем взять с собой следующие вещи:");
+            recomendArea.append("\nОдежду: "+allRecs.get(i).get(1));
+            recomendArea.append("\nАксессуары: "+allRecs.get(i).get(0)+"\n\n");
         }
         recomendFrame.setVisible(true);
         recomendFrame.pack();
