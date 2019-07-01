@@ -144,6 +144,7 @@ public class GoogleMap extends MapView {
         JPanel jPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         jPanel.setLayout(gbl);
+        jPanel.setBackground(new Color(150,237, 148));
         currentPoints = new ArrayList<>();
         currentPointTableModel = new CurrentPointTableModel(currentPoints);
         GridBagConstraints c = new GridBagConstraints();
@@ -172,7 +173,14 @@ public class GoogleMap extends MapView {
         }
         JButton getRecommendationButton = new JButton("Получить рекомендации");
         getRecommendationButton.addActionListener(e->{
-            showAndGetRecommendation(sample.allRecommendations(currentPoints),currentPoints);
+            if (currentPoints.size()!=0){
+                showAndGetRecommendation(sample.allRecommendations(currentPoints),currentPoints);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(frame, "Выберите хотябы одну точку, для получения реккомендаций",
+                        "Ошибка получения рекомендаций", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         c.gridx = 0;
@@ -196,7 +204,8 @@ public class GoogleMap extends MapView {
         recomendArea.setLineWrap(true);
         recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
         recomendFrame.add(recomendArea);
-        //recomendFrame.setBackground(new Color(174, 237, 21));
+
+        recomendArea.setBackground(new Color(57,237, 152));
         recomendFrame.setTitle("Рекомендации для ваших путешествий");
         recomendArea.append("Информация по выбранным местам для путешествия: \n\n");
         for (int i=0;i<currentPoints.size();i++)
