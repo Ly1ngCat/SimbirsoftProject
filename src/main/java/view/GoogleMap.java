@@ -193,8 +193,12 @@ public class GoogleMap extends MapView {
         JTextArea recomendArea = new JTextArea(10,50);
         recomendFrame.setSize(new Dimension(600,800));
         recomendFrame.setLayout(new FlowLayout());
+        recomendArea.setLineWrap(true);
+        recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
         recomendFrame.add(recomendArea);
-        recomendArea.append("Для путешествия в следующие места вам понадобятся: \n\n");
+        //recomendFrame.setBackground(new Color(174, 237, 21));
+        recomendFrame.setTitle("Рекомендации для ваших путешествий");
+        recomendArea.append("Информация по выбранным местам для путешествия: \n\n");
         for (int i=0;i<currentPoints.size();i++)
         {
             recomendArea.append("Дата: "+currentPoints.get(i).getForecastDate()
