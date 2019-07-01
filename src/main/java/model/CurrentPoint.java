@@ -80,5 +80,6 @@ public class CurrentPoint implements Comparable<CurrentPoint>{
     {
         this.weather=new Weather(this);
     }
+
 }
 

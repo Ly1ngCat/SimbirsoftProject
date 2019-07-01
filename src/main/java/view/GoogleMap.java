@@ -107,8 +107,10 @@ public class GoogleMap extends MapView {
                                     @Override
                                     public void onEvent(MouseEvent mouseEvent) {
                                         marker.remove();
-                                        currentPoints.remove(currentPoint);  // ВОТ тут он удаляет currentPoint а он не меняется
-                                        // нужно из маркера достать currentPoint и удалить его из коллекции
+                                        LatLng coordinates = marker.getPosition();
+                                        double latitude = coordinates.getLat();
+                                        double longitude = coordinates.getLng();
+                                        currentPoints.remove(getCurrentPointbyCoordinates(latitude,longitude));
                                         fixIds();
                                         currentPointTableModel.fireTableDataChanged();
                                         //System.out.println(currentPoints);
@@ -174,7 +176,15 @@ public class GoogleMap extends MapView {
         frame.pack();
 
     }
+    private static CurrentPoint getCurrentPointbyCoordinates(double latitude, double longitude){
+        for (CurrentPoint point : currentPoints) {
+            if (point.getLatitude() == latitude && point.getLongitude() == longitude){
+                return point;
+            }
+        }
+        return null;
 
+    }
     private static void fixIds(){
         int id = 1;
         for (CurrentPoint point : currentPoints) {
