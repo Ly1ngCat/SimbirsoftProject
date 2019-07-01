@@ -1,6 +1,7 @@
 package view;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
+
 import com.teamdev.jxmaps.Map;
 import com.teamdev.jxmaps.examples.MapOptionsExample;
 
@@ -15,6 +16,7 @@ import org.json.JSONException;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.*;
@@ -27,14 +29,12 @@ import model.Weather;
 import controllers.workerXML.RecommendationParser;
 
 public class GoogleMap extends MapView {
-    private OptionsWindow optionsWindow;
+    
 
-    public List<ArrayList<String>> allRecommendations(ArrayList<CurrentPoint> points)
-    {
+    public List<ArrayList<String>> allRecommendations(ArrayList<CurrentPoint> points) {
         Collections.sort(points); //сортируем массив маркеров по ДАТЕ в порядке возрастания
-        List<ArrayList<String>> allRecs=new ArrayList<>();
-        for (int i=0; i< points.size(); i++)
-        {
+        List<ArrayList<String>> allRecs = new ArrayList<>();
+        for (int i = 0; i < points.size(); i++) {
             allRecs.add(RecommendationParser.getRecomendation(points.get(i).weather.weatherType.toLowerCase(),
                     points.get(i).weather.predictedTemp));
         }
@@ -110,7 +110,7 @@ public class GoogleMap extends MapView {
                                         LatLng coordinates = marker.getPosition();
                                         double latitude = coordinates.getLat();
                                         double longitude = coordinates.getLng();
-                                        currentPoints.remove(getCurrentPointbyCoordinates(latitude,longitude));
+                                        currentPoints.remove(getCurrentPointbyCoordinates(latitude, longitude));
                                         fixIds();
                                         currentPointTableModel.fireTableDataChanged();
                                         //System.out.println(currentPoints);
@@ -135,6 +135,7 @@ public class GoogleMap extends MapView {
     private static CurrentPoint currentPoint;
     private static ArrayList<CurrentPoint> currentPoints;
     private static int curretPointId = 0;
+
     public static void Interface(String[] args) throws IOException, JSONException {
 
         final GoogleMap sample = new GoogleMap();
@@ -166,7 +167,7 @@ public class GoogleMap extends MapView {
         JButton getRecommendationButton = new JButton("Получить рекомендации");
         c.gridx = 0;
         c.gridy = 3;
-        jPanel.add(getRecommendationButton,c);
+        jPanel.add(getRecommendationButton, c);
         frame.add(jPanel, BorderLayout.EAST);
         frame.setPreferredSize(new Dimension(dimension.width, dimension.height));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -175,17 +176,47 @@ public class GoogleMap extends MapView {
         frame.setVisible(true);
         frame.pack();
 
+
+
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setBackground(Color.white);
+        content.setSize(600, 40);
+        Font robotoPlain13 = new Font("Roboto", 0, 13);
+        final JTextField searchField = new JTextField();
+        searchField.setToolTipText("Введите нужное место");
+        searchField.setBorder(BorderFactory.createEmptyBorder());
+        searchField.setFont(robotoPlain13);
+        searchField.setForeground(new Color(33, 33, 33));
+
+
+        JButton searchButton = new JButton();
+        searchButton.setIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search.png")));
+        searchButton.setRolloverIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search_hover.png")));
+        searchButton.setBorder(BorderFactory.createEmptyBorder());
+        searchButton.setToolTipText("Поиск");
+
+        searchButton.setUI(new BasicButtonUI());
+        searchButton.setOpaque(false);
+
+
+        content.add(searchField, new GridBagConstraints(0, 0, 1, 1, 1.0D, 0.0D, 18, 2, new Insets(11, 11, 11, 0), 0, 0));
+        content.add(searchButton, new GridBagConstraints(1, 0, 1, 1, 0.0D, 0.0D, 18, 0, new Insets(11, 0, 11, 11), 0, 0));
+        frame.add(content, BorderLayout.BEFORE_FIRST_LINE);
+
+
     }
-    private static CurrentPoint getCurrentPointbyCoordinates(double latitude, double longitude){
+
+    private static CurrentPoint getCurrentPointbyCoordinates(double latitude, double longitude) {
         for (CurrentPoint point : currentPoints) {
-            if (point.getLatitude() == latitude && point.getLongitude() == longitude){
+            if (point.getLatitude() == latitude && point.getLongitude() == longitude) {
                 return point;
             }
         }
         return null;
 
     }
-    private static void fixIds(){
+
+    private static void fixIds() {
         int id = 1;
         for (CurrentPoint point : currentPoints) {
             point.setId(id++);
@@ -229,34 +260,6 @@ public class GoogleMap extends MapView {
         }
     }
 
-    public void addNotify() {
-        super.addNotify();
-        this.optionsWindow = new OptionsWindow(this, new Dimension(350, 40)) {
-            public void initContent(JWindow contentWindow) {
-                JPanel content = new JPanel(new GridBagLayout());
-                content.setBackground(Color.white);
-                Font robotoPlain13 = new Font("Roboto", 0, 13);
-                final JTextField searchField = new JTextField();
-                searchField.setText("Ульяновск");
-                searchField.setToolTipText("Введите нужное место");
-                searchField.setBorder(BorderFactory.createEmptyBorder());
-                searchField.setFont(robotoPlain13);
-                searchField.setForeground(new Color(33, 33, 33));
-
-                JButton searchButton = new JButton();
-                searchButton.setIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search.png")));
-                searchButton.setRolloverIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search_hover.png")));
-                searchButton.setBorder(BorderFactory.createEmptyBorder());
-                searchButton.setToolTipText("Поиск");
-
-                searchButton.setUI(new BasicButtonUI());
-                searchButton.setOpaque(false);
-
-
-                content.add(searchField, new GridBagConstraints(0, 0, 1, 1, 1.0D, 0.0D, 18, 2, new Insets(11, 11, 11, 0), 0, 0));
-                content.add(searchButton, new GridBagConstraints(1, 0, 1, 1, 0.0D, 0.0D, 18, 0, new Insets(11, 0, 11, 11), 0, 0));
-                contentWindow.getContentPane().add(content);
-            }
-        };
-    }
 }
+
+
