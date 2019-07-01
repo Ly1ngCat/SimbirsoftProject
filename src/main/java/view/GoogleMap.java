@@ -19,6 +19,7 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.time.LocalDate;
 import java.util.*;
@@ -26,7 +27,7 @@ import java.util.List;
 
 
 public class GoogleMap extends MapView {
-    private OptionsWindow optionsWindow;
+    //private OptionsWindow optionsWindow;
     private List<ArrayList<String>> allRecs;
     public List<ArrayList<String>> allRecommendations(ArrayList<CurrentPoint> points)
     {
@@ -196,10 +197,12 @@ public class GoogleMap extends MapView {
         recomendArea.append("Для путешествия в следующие места вам понадобятся: \n");
         for (int i=0;i<currentPoints.size();i++)
         {
-            recomendArea.append("Место: "+currentPoints.get(i).getAdressString()
+            recomendArea.append("Дата: "+currentPoints.get(i).getForecastDate()
+                    .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
+                    +". Место: "+currentPoints.get(i).getAdressString()
                     +". Температура: "+currentPoints.get(i).weather.predictedTemp+" C"
                     +". Ветер: "+currentPoints.get(i).weather.windSpeed+" м/с.");
-            recomendArea.append("Рекомендуем взять с собой следующие вещи: \n");
+            recomendArea.append("Рекомендуем взять с собой следующие вещи:");
             recomendArea.append("Одежду: "+allRecs.get(i).get(1));
             recomendArea.append("Аксессуары: "+allRecs.get(i).get(0));
         }
@@ -260,7 +263,7 @@ public class GoogleMap extends MapView {
         }
     }
 
-    public void addNotify() {
+    /*public void addNotify() {
         super.addNotify();
         this.optionsWindow = new OptionsWindow(this, new Dimension(350, 40)) {
             public void initContent(JWindow contentWindow) {
@@ -289,5 +292,5 @@ public class GoogleMap extends MapView {
                 contentWindow.getContentPane().add(content);
             }
         };
-    }
+    }*/
 }
