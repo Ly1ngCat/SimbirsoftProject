@@ -199,14 +199,14 @@ public class GoogleMap extends MapView {
     private static void showAndGetRecommendation(List<ArrayList<String>> allRecs, ArrayList<CurrentPoint> currentPoints) {
         JFrame recomendFrame = new JFrame();
         JTextArea recomendArea = new JTextArea(10,50);
-        recomendFrame.setSize(new Dimension(600,800));
         recomendFrame.setLayout(new FlowLayout());
         recomendArea.setLineWrap(true);
         recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        recomendFrame.add(recomendArea);
-
         recomendArea.setBackground(new Color(57,237, 152));
         recomendFrame.setTitle("Рекомендации для ваших путешествий");
+        JScrollPane jScrollPane = new JScrollPane(recomendArea);
+        jScrollPane.setPreferredSize(new Dimension(600,Toolkit.getDefaultToolkit().getScreenSize().height-200));
+        recomendFrame.add(jScrollPane);
         recomendArea.append("Информация по выбранным местам для путешествия: \n\n");
         for (int i=0;i<currentPoints.size();i++)
         {
