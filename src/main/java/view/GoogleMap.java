@@ -85,6 +85,7 @@ public class GoogleMap extends MapView {
                                 double longitude = coordinates.getLng();
 
                                 geocodingAdressGoogleMapsAPI.calculateAdress(latitude + "," + longitude);
+                                currentPoint.setId(++curretPointId);
                                 currentPoint.setLatitude(latitude);
                                 currentPoint.setLongitude(longitude);
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
@@ -106,7 +107,10 @@ public class GoogleMap extends MapView {
                                     @Override
                                     public void onEvent(MouseEvent mouseEvent) {
                                         marker.remove();
-                                        currentPoints.remove(currentPoint);
+                                        currentPoints.remove(currentPoint);  // ВОТ тут он удаляет currentPoint а он не меняется
+                                        // нужно из маркера достать currentPoint и удалить его из коллекции
+                                        fixIds();
+                                        currentPointTableModel.fireTableDataChanged();
                                         //System.out.println(currentPoints);
                                         System.out.println(allRecommendations(currentPoints));
                                         //hashMap.remove(coordinates);
@@ -128,7 +132,7 @@ public class GoogleMap extends MapView {
     private static CurrentPointTableModel currentPointTableModel;
     private static CurrentPoint currentPoint;
     private static ArrayList<CurrentPoint> currentPoints;
-
+    private static int curretPointId = 0;
     public static void Interface(String[] args) throws IOException, JSONException {
 
         final GoogleMap sample = new GoogleMap();
@@ -157,6 +161,10 @@ public class GoogleMap extends MapView {
         c.gridx = 0;
         c.gridy = 2;
         jPanel.add(jscrlp, c);
+        JButton getRecommendationButton = new JButton("Получить рекомендации");
+        c.gridx = 0;
+        c.gridy = 3;
+        jPanel.add(getRecommendationButton,c);
         frame.add(jPanel, BorderLayout.EAST);
         frame.setPreferredSize(new Dimension(dimension.width, dimension.height));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -164,6 +172,15 @@ public class GoogleMap extends MapView {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.pack();
+
+    }
+
+    private static void fixIds(){
+        int id = 1;
+        for (CurrentPoint point : currentPoints) {
+            point.setId(id++);
+        }
+        curretPointId = currentPoints.size();
     }
 
     static class DialogDateTimePicker extends JDialog {

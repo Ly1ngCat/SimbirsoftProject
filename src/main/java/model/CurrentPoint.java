@@ -3,11 +3,21 @@ package model;
 import java.time.LocalDateTime;
 
 public class CurrentPoint implements Comparable<CurrentPoint>{
+    private int id;
     public double longitude = 0;
     public double latitude = 0;
     private LocalDateTime forecastDate;
     public String adressString = "";
     public Weather weather=null;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     @Override
     public String toString()

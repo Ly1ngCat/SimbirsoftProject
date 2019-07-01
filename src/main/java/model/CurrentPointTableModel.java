@@ -25,7 +25,7 @@ public class CurrentPointTableModel extends AbstractTableModel {
     public Object getValueAt(int r, int c) {
         switch (c){
             case 0:
-                return currentPoints.size()+1;
+                return currentPoints.get(r).getId();
             case 1:
                 return currentPoints.get(r).getAdressString();
             case 2:
