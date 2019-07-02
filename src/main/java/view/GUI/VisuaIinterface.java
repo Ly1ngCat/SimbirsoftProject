@@ -1,6 +1,8 @@
 package view.GUI;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
+import com.teamdev.jxmaps.examples.MapOptionsExample;
+import com.teamdev.jxmaps.internal.internal.ipc.c;
 import model.CurrentPoint;
 import model.CurrentPointTableModel;
 import org.json.JSONException;
@@ -9,6 +11,8 @@ import view.GoogleMap;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -125,83 +129,84 @@ public class VisuaIinterface {
             });
         }
 
-    public static void showAndGetRecommendation(List<ArrayList<String>> allRecs, ArrayList<CurrentPoint> currentPoints) {
-        JFrame recomendFrame = new JFrame();
-        JTextArea recomendArea = new JTextArea(10,50);
-        recomendFrame.setLayout(new FlowLayout());
-        recomendArea.setLineWrap(true);
-        recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        recomendArea.setBackground(new Color(57,237, 152));
-        recomendFrame.setTitle("Рекомендации для ваших путешествий");
-        JScrollPane jScrollPane = new JScrollPane(recomendArea);
-        jScrollPane.setPreferredSize(new Dimension(600,Toolkit.getDefaultToolkit().getScreenSize().height-200));
-        recomendFrame.add(jScrollPane);
-        recomendArea.append("Информация по выбранным местам для путешествия: \n\n");
-        for (int i=0;i<currentPoints.size();i++)
-        {
-            recomendArea.append("Дата: "+currentPoints.get(i).getForecastDate()
-                    .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
-                    +".\nМесто: "+currentPoints.get(i).getAdressString()
-                    +".\nТемпература: "+currentPoints.get(i).weather.predictedTemp+" C"
-                    +".\nВетер: "+currentPoints.get(i).weather.windSpeed+" м/с.");
-            recomendArea.append("\nРекомендуем взять с собой следующие вещи:");
-            recomendArea.append("\nОдежду: "+allRecs.get(i).get(1));
-            recomendArea.append("\nАксессуары: "+allRecs.get(i).get(0)+"\n\n");
-        }
-        recomendFrame.setVisible(true);
-        recomendFrame.pack();
-    }
-
-    public static CurrentPoint getCurrentPointByCoordinates(double latitude, double longitude){
-        for (CurrentPoint point : currentPoints) {
-            if (point.getLatitude() == latitude && point.getLongitude() == longitude){
-                return point;
+        public static void showAndGetRecommendation(List<ArrayList<String>> allRecs, ArrayList<CurrentPoint> currentPoints) {
+            JFrame recomendFrame = new JFrame();
+            JTextArea recomendArea = new JTextArea(10, 50);
+            recomendFrame.setLayout(new FlowLayout());
+            recomendArea.setLineWrap(true);
+            recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
+            recomendArea.setBackground(new Color(57, 237, 152));
+            recomendFrame.setTitle("Рекомендации для ваших путешествий");
+            JScrollPane jScrollPane = new JScrollPane(recomendArea);
+            jScrollPane.setPreferredSize(new Dimension(600, Toolkit.getDefaultToolkit().getScreenSize().height - 200));
+            recomendFrame.add(jScrollPane);
+            recomendArea.append("Информация по выбранным местам для путешествия: \n\n");
+            for (int i = 0; i < currentPoints.size(); i++) {
+                recomendArea.append("Дата: " + currentPoints.get(i).getForecastDate()
+                        .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
+                        + ".\nМесто: " + currentPoints.get(i).getAdressString()
+                        + ".\nТемпература: " + currentPoints.get(i).weather.predictedTemp + " C"
+                        + ".\nВетер: " + currentPoints.get(i).weather.windSpeed + " м/с.");
+                recomendArea.append("\nРекомендуем взять с собой следующие вещи:");
+                recomendArea.append("\nОдежду: " + allRecs.get(i).get(1));
+                recomendArea.append("\nАксессуары: " + allRecs.get(i).get(0) + "\n\n");
             }
+            recomendFrame.setVisible(true);
+            recomendFrame.pack();
         }
-        return null;
 
-    }
-    public static void fixIds(){
-        int id = 1;
-        for (CurrentPoint point : currentPoints) {
-            point.setId(id++);
-        }
-        curretPointId = currentPoints.size();
-    }
-
-
-    }
-
-    /*public void addNotify() {
-        super.addNotify();
-        this.optionsWindow = new OptionsWindow(this, new Dimension(350, 40)) {
-            public void initContent(JWindow contentWindow) {
-                JPanel content = new JPanel(new GridBagLayout());
-                content.setBackground(Color.white);
-                Font robotoPlain13 = new Font("Roboto", 0, 13);
-                final JTextField searchField = new JTextField();
-                searchField.setText("Ульяновск");
-                searchField.setToolTipText("Введите нужное место");
-                searchField.setBorder(BorderFactory.createEmptyBorder());
-                searchField.setFont(robotoPlain13);
-                searchField.setForeground(new Color(33, 33, 33));
-
-                JButton searchButton = new JButton();
-                searchButton.setIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search.png")));
-                searchButton.setRolloverIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search_hover.png")));
-                searchButton.setBorder(BorderFactory.createEmptyBorder());
-                searchButton.setToolTipText("Поиск");
-
-                searchButton.setUI(new BasicButtonUI());
-                searchButton.setOpaque(false);
-
-
-                content.add(searchField, new GridBagConstraints(0, 0, 1, 1, 1.0D, 0.0D, 18, 2, new Insets(11, 11, 11, 0), 0, 0));
-                content.add(searchButton, new GridBagConstraints(1, 0, 1, 1, 0.0D, 0.0D, 18, 0, new Insets(11, 0, 11, 11), 0, 0));
-                contentWindow.getContentPane().add(content);
+        public static CurrentPoint getCurrentPointByCoordinates(double latitude, double longitude) {
+            for (CurrentPoint point : currentPoints) {
+                if (point.getLatitude() == latitude && point.getLongitude() == longitude) {
+                    return point;
+                }
             }
-        };
-    }*/
+            return null;
+
+        }
+
+        public static void fixIds() {
+            int id = 1;
+            for (CurrentPoint point : currentPoints) {
+                point.setId(id++);
+            }
+            curretPointId = currentPoints.size();
+        }
+
+        public static void search() {
+            JPanel content = new JPanel();
+            content.setSize(600, 40);
+            content.setBackground(Color.white);
+            Font robotoPlain13 = new Font("Roboto", 0, 13);
+            GridBagLayout gbl = new GridBagLayout();
+            content.setLayout(gbl);
+
+            final JTextField searchField = new JTextField("Поиск");
+            searchField.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    searchField.setText("");
+                }
+            });
+
+            searchField.setFont(robotoPlain13);
+            searchField.setToolTipText("Введите нужное место");
+            searchField.setForeground(new Color(33, 33, 33));
+            searchField.setVisible(true);
+
+            JButton searchButton = new JButton();
+            searchButton.setIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search.png")));
+            searchButton.setRolloverIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search_hover.png")));
+            searchButton.setToolTipText("Поиск");
+
+            content.add(searchField);
+            content.add(searchButton);
+
+            frame.add(content, BorderLayout.BEFORE_FIRST_LINE);
+
+        }
+    }
 }
+
 
 
