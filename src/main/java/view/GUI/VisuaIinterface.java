@@ -11,8 +11,7 @@ import view.GoogleMap;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -85,6 +84,7 @@ public class VisuaIinterface {
         c.gridx = 0;
         c.gridy = 3;
         jPanel.add(getRecommendationButton, c);
+        search();
         frame.add(jPanel, BorderLayout.EAST);
         frame.setPreferredSize(new Dimension(dimension.width, dimension.height));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -93,7 +93,58 @@ public class VisuaIinterface {
         frame.setVisible(true);
         frame.pack();
     }
+    public static void search() {
+        JPanel content = new JPanel();
+        content.setSize(600, 40);
+        content.setBackground(Color.white);
+        Font robotoPlain13 = new Font("Roboto", 0, 13);
+        GridBagLayout gbl = new GridBagLayout();
+        content.setLayout(gbl);
 
+        final JTextField searchField = new JTextField();
+        searchField.setColumns(50);
+        searchField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (searchField.getText().equals("Поиск")) {
+                    searchField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setText("Поиск");
+                }
+            }
+        });
+
+        searchField.setFont(robotoPlain13);
+        searchField.setToolTipText("Введите нужное место");
+        searchField.setForeground(new Color(33, 33, 33));
+        searchField.setVisible(true);
+
+        JButton searchButton = new JButton();
+        searchButton.setIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search.png")));
+        searchButton.setRolloverIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search_hover.png")));
+        searchButton.setToolTipText("Поиск");
+        searchButton.addActionListener(e->{
+            searchField.setText("Вы нажали на кнопку Поиска");
+        });
+
+        searchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                searchField.setText("Вы ввели в строку поиска - " + searchField.getText() + ", и нажати enter");
+            }
+        });
+
+        content.add(searchField);
+        content.add(searchButton);
+
+        frame.add(content, BorderLayout.BEFORE_FIRST_LINE);
+    }
     public static class DialogDateTimePicker extends JDialog {
         public DialogDateTimePicker() {
             super(frame, "Выбор даты и времени", true);
@@ -173,38 +224,6 @@ public class VisuaIinterface {
             curretPointId = currentPoints.size();
         }
 
-        public static void search() {
-            JPanel content = new JPanel();
-            content.setSize(600, 40);
-            content.setBackground(Color.white);
-            Font robotoPlain13 = new Font("Roboto", 0, 13);
-            GridBagLayout gbl = new GridBagLayout();
-            content.setLayout(gbl);
-
-            final JTextField searchField = new JTextField("Поиск");
-            searchField.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    searchField.setText("");
-                }
-            });
-
-            searchField.setFont(robotoPlain13);
-            searchField.setToolTipText("Введите нужное место");
-            searchField.setForeground(new Color(33, 33, 33));
-            searchField.setVisible(true);
-
-            JButton searchButton = new JButton();
-            searchButton.setIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search.png")));
-            searchButton.setRolloverIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search_hover.png")));
-            searchButton.setToolTipText("Поиск");
-
-            content.add(searchField);
-            content.add(searchButton);
-
-            frame.add(content, BorderLayout.BEFORE_FIRST_LINE);
-
-        }
     }
 }
 
