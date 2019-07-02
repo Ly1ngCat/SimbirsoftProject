@@ -5,13 +5,11 @@ import model.CurrentPoint;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Map;
 
-public class DirectionSample extends AbstractSample implements RequestResponseLanguage{
+public class DirectionGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implements RequestResponseLanguage{
 
-    private String KEY_GOOGLE_API = "";
     private final String baseUrl = "https://maps.googleapis.com/maps/api/directions/json";// путь к Geocoding API по
 
     protected enum travelModes {driving, walking, bicycling, transit}
@@ -19,14 +17,12 @@ public class DirectionSample extends AbstractSample implements RequestResponseLa
     private String distance;
     private String duration;
 
-    public DirectionSample(String KEY_GOOGLE_API) {
-        this.KEY_GOOGLE_API = KEY_GOOGLE_API;
-    }
+    public DirectionGoogleMapsAPI() { }
 
     public void calculateRoute(String origin, String destination, travelModes travelModes) {
 
         String urlJsonReques = createJSONRequest(origin, destination, travelModes);
-        openJSONRequestRoute(urlJsonReques);
+        calculateJSONRequestRoute(urlJsonReques);
 
     }
 
@@ -46,7 +42,7 @@ public class DirectionSample extends AbstractSample implements RequestResponseLa
         return url;
     }
 
-    private void openJSONRequestRoute(String url) {
+    private void calculateJSONRequestRoute(String url) {
         try {
             final JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
             // как правило наиболее подходящий ответ первый и данные о кординатах можно получить по пути

@@ -4,13 +4,13 @@ import com.teamdev.jxmaps.Map;
 
 import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
 import controllers.workerXML.RecommendationParser;
+import library.ConfigParse;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
 import org.json.JSONException;
 import view.GUI.VisuaIinterface;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.*;
@@ -37,12 +37,7 @@ public class GoogleMap extends MapView {
 
     public GoogleMap() throws IOException, JSONException {
 
-        FileInputStream fisConfig = new FileInputStream("src/main/resources/config.properties");
-        Properties propertyConfig = new Properties();
-        propertyConfig.load(fisConfig);
-
-        GeocodingAdressGoogleMapsAPI geocodingAdressGoogleMapsAPI =
-                new GeocodingAdressGoogleMapsAPI(propertyConfig.getProperty("KeyGoogleAPI"));
+        GeocodingAdressGoogleMapsAPI geocodingAdressGoogleMapsAPI = new GeocodingAdressGoogleMapsAPI();
 
         setOnMapReadyHandler(new MapReadyHandler() {
 

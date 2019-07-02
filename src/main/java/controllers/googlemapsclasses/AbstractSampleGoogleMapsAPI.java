@@ -3,13 +3,17 @@ package controllers.googlemapsclasses;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+import library.ConfigParse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class AbstractSample {
+public abstract class AbstractSampleGoogleMapsAPI {
+
+    protected final String KEY_GOOGLE_API = ConfigParse.getValueByKey("src/main/resources/config.properties","KeyGoogleAPI");
+
     protected static String encodeParams(final Map<String, String> params) {
         final String paramsUrl = Joiner.on('&').join(// получаем значение вида key1=value1&key2=value2...
                 Iterables.transform(params.entrySet(), new Function<Entry<String, String>, String>() {
@@ -31,4 +35,5 @@ public abstract class AbstractSample {
                 }));
         return paramsUrl;
     }
+
 }

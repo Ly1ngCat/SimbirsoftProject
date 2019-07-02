@@ -10,11 +10,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Map;
 
-public class GeocodingAdressGoogleMapsAPI implements RequestResponseLanguage{
+public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implements RequestResponseLanguage{
 
     private Map<String, String> params;
     private String baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";// путь к Geocoding API по HTTP
-    private String KEY_GOOGLE_API = "";
 
     private double longitude = 0; //долгота
     private double latitude = 0;//широта
@@ -22,14 +21,12 @@ public class GeocodingAdressGoogleMapsAPI implements RequestResponseLanguage{
 
     private enum selectionTypeAdress {address, latlng}
 
-    public GeocodingAdressGoogleMapsAPI(String KEY_GOOGLE_API) {
-        this.KEY_GOOGLE_API = KEY_GOOGLE_API;
-    }
+    public GeocodingAdressGoogleMapsAPI() { }
 
     public void calculateLongitudeAndLatitude (String adress)  {
 
         try {
-            String url = calculateJSONRequest(selectionTypeAdress.address.toString(), adress);
+            String url = createJSONRequest(selectionTypeAdress.address.toString(), adress);
 
             JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
             // как правило наиболее подходящий ответ первый и данные о координатах можно получить по пути
@@ -45,12 +42,13 @@ public class GeocodingAdressGoogleMapsAPI implements RequestResponseLanguage{
             latitude = 0;
             e.printStackTrace();
         }
+
     }
 
     public void calculateAdress(String coordinates) {
 
         try {
-            String url = calculateJSONRequest(selectionTypeAdress.latlng.toString(), coordinates);
+            String url = createJSONRequest(selectionTypeAdress.latlng.toString(), coordinates);
 
             JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
             final JSONObject location = response.getJSONArray("results").getJSONObject(0);
@@ -65,7 +63,7 @@ public class GeocodingAdressGoogleMapsAPI implements RequestResponseLanguage{
     }
 
 
-    private String calculateJSONRequest(String enumTypeCoordinates, String coordinates)  {
+    private String createJSONRequest(String enumTypeCoordinates, String coordinates)  {
        
         params = Maps.newHashMap();
         params.put("language", answerLanguage);// язык данных, на котором мы хотим получить

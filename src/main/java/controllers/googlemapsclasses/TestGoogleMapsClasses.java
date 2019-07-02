@@ -1,10 +1,10 @@
 package controllers.googlemapsclasses;
 
-import constants.Constant;
-import model.CurrentPoint;
+import model.PlaceModel;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TestGoogleMapsClasses {
 
@@ -23,9 +23,13 @@ public class TestGoogleMapsClasses {
                 geocodingAdressGoogleMapsAPI.getlongitude()));// итоговая широта и долгота*/
 
 
-       /* DirectionSample directionSample = new DirectionSample(Constant.KEY_GOOGLE_API);
+        /*DirectionGoogleMapsAPI directionSample = new DirectionGoogleMapsAPI();
         directionSample.calculateRoute("55.735893,37.527420",
-                "Россия, Димитровград, улица Театральная, улица Ленина 10", DirectionSample.travelModes.walking);*/
+                "Россия, Димитровград, улица Театральная, улица Ленина 10", DirectionGoogleMapsAPI.travelModes.bicycling);*/
 
+
+       PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
+        ArrayList<PlaceModel> ggg = placeSearchGoogleMapsAPI.generateListPlaceModel("-33.8599358","151.2090295",
+                PlaceSearchGoogleMapsAPI.typePlace.lodging,"2500");
     }
 }
