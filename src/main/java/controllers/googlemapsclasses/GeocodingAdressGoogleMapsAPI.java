@@ -21,10 +21,10 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
 
     private enum selectionTypeAdress {address, latlng}
 
-
     public GeocodingAdressGoogleMapsAPI() { }
 
     public void calculateLongitudeAndLatitude (String adress)  {
+
         try {
             String url = createJSONRequest(selectionTypeAdress.address.toString(), adress);
 
@@ -36,18 +36,18 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
             location = location.getJSONObject("location");
             longitude = location.getDouble("lng");// долгота
             latitude = location.getDouble("lat");// широта
-            this.adress = adress;
             //System.out.println(String.format("%f,%f", latitude, longitude));// итоговая широта и долгота
-        } catch (IOException | JSONException | NullPointerException e) {
+        } catch (IOException | JSONException e) {
             longitude = 0;
             latitude = 0;
-            this.adress = "";
+
             e.printStackTrace();
         }
 
     }
 
     public void calculateAdress(String coordinates) {
+
         try {
             String url = createJSONRequest(selectionTypeAdress.latlng.toString(), coordinates);
 
@@ -57,17 +57,10 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
             System.out.println(formattedAddress);// итоговый адрес
             adress = formattedAddress;
             //System.out.println(String.format("%f,%f", latitude, longitude));// итоговая широта и долгота
-        }
-        catch (JSONException | IOException | NullPointerException e) {
-            longitude = 0;
-            latitude = 0;
+        }catch (JSONException | IOException e) {
             adress = "";
             e.printStackTrace();
         }
-    }
-
-    public void calculateAdress(String latitude, String longitude) {
-        calculateAdress(latitude + "," + longitude);
     }
 
 
@@ -90,21 +83,19 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
     public CurrentPoint getCurrentPointViaAdress(String adress)  {
         calculateLongitudeAndLatitude(adress);
 
-        return new CurrentPoint(getlongitude(), getlatitude(), this.adress, null);
+        return new CurrentPoint(getlongitude(),
+                getlatitude(),
+                adress,
+                null);
     }
 
-    public CurrentPoint getCurrentPointViaCoordinates(double latitude, double longitude) {
+    public CurrentPoint getCurrentPointViaCoordinates(String сoordinates) {
+        calculateAdress(сoordinates);
 
-            this.longitude = longitude;
-            this.latitude = latitude;
-
-            calculateAdress(String.valueOf(latitude),String.valueOf(longitude));
-            return new CurrentPoint(getlongitude(), getlatitude(), this.adress, null);
-/*
-        } catch (Exception e) {
-            e.printStackTrace()
-            return new CurrentPoint(0, 0, "", null);
-        }*/
+        return new CurrentPoint(getlongitude(),
+                getlatitude(),
+                adress,
+                null);
     }
 
 
@@ -124,5 +115,4 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
     public String getAdress(){
         return adress;
     }
-
 }

@@ -3,10 +3,12 @@ package library;
 import model.PlaceModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ArrayListToPlaceModelParse {
 
-    static public ArrayList<PlaceModel> convert (ArrayList<ArrayList<String>> listPlace){
+    static public ArrayList<PlaceModel> convert (List<ArrayList<String>> listPlace){
 
         try {
             ArrayList<PlaceModel> placeModels = new ArrayList<>();
@@ -20,8 +22,10 @@ public class ArrayListToPlaceModelParse {
             return placeModels;
 
         } catch (NumberFormatException e) {
+
             e.printStackTrace();
-            return null;
+            return new ArrayList<>(0);
+         //   return Collections.emptyList();
         }
     }
 }

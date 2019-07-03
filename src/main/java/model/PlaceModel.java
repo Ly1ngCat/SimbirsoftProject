@@ -3,11 +3,11 @@ package model;
 import java.util.ArrayList;
 
 public class PlaceModel {
-    double latitude = 0;
-    double longitude = 0;
-    String name = "";
-    String vicinity = "";
-    double rating;
+    public double latitude = 0;
+    public double longitude = 0;
+    public String name = "";
+    public String vicinity = "";
+    public double rating;
 
     public PlaceModel(double latitude, double longitude, String name, String vicinity, double rating){
         this.latitude = latitude;

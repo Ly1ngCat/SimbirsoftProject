@@ -5,6 +5,7 @@ import com.teamdev.jxmaps.examples.MapOptionsExample;
 import com.teamdev.jxmaps.internal.internal.ipc.c;
 import model.CurrentPoint;
 import model.CurrentPointTableModel;
+import model.PlaceModel;
 import org.json.JSONException;
 import view.GoogleMap;
 
@@ -30,6 +31,7 @@ public class VisuaIinterface {
     public static CurrentPointTableModel currentPointTableModel;
     public static CurrentPoint currentPoint;
     public static ArrayList<CurrentPoint> currentPoints;
+    public static List<ArrayList<PlaceModel>> foundPlaces;
     public static int curretPointId = 0;
 
     public static void Interface(String[] args) throws IOException, JSONException {
@@ -42,8 +44,11 @@ public class VisuaIinterface {
         GridBagLayout gbl = new GridBagLayout();
         jPanel.setLayout(gbl);
         jPanel.setBackground(new Color(150, 237, 148));
+
         currentPoints = new ArrayList<>();
         currentPointTableModel = new CurrentPointTableModel(currentPoints);
+        foundPlaces=new ArrayList<>();
+
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 3, 4, 2);
         JTable jTable = new JTable(currentPointTableModel);
@@ -201,6 +206,20 @@ public class VisuaIinterface {
                 recomendArea.append("\nРекомендуем взять с собой следующие вещи:");
                 recomendArea.append("\nОдежду: " + allRecs.get(i).get(1));
                 recomendArea.append("\nАксессуары: " + allRecs.get(i).get(0) + "\n\n");
+                recomendArea.append("Вы можете в округе найти следующие отели:\n\n");
+                if (foundPlaces.get(i).size()!= 0 && foundPlaces.get(i) != null)
+                {
+                    for (int j=0;j<foundPlaces.get(i).size();j++)
+                    {
+                        recomendArea.append("Название: " +foundPlaces.get(i).get(j).name
+                                +".\nАдрес: "+foundPlaces.get(i).get(j).vicinity
+                                +".\nРейтинг: "+foundPlaces.get(i).get(j).rating+"\n\n");
+                    }
+                }
+                else
+                {
+                    recomendArea.append("В округе отели не найдены:\n\n");
+                }
             }
             recomendFrame.setVisible(true);
             recomendFrame.pack();

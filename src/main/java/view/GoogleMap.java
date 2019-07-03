@@ -3,11 +3,14 @@ package view;
 import com.teamdev.jxmaps.Map;
 
 import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
+import controllers.googlemapsclasses.PlaceSearchGoogleMapsAPI;
 import controllers.workerXML.RecommendationParser;
+import library.ArrayListToPlaceModelParse;
 import library.ConfigParse;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
+import model.PlaceModel;
 import org.json.JSONException;
 import view.GUI.VisuaIinterface;
 
@@ -44,7 +47,7 @@ public class GoogleMap extends MapView {
             public void onMapReady(MapStatus status) {
                 if (status == MapStatus.MAP_STATUS_OK) {
 
-                    HashMap<LatLng, CurrentPoint> hashMap = new HashMap<>();
+                    //HashMap<LatLng, CurrentPoint> hashMap = new HashMap<>();
 
                     final Map map = getMap();
                     MapOptions options = new MapOptions();
@@ -80,16 +83,21 @@ public class GoogleMap extends MapView {
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
                                 currentPoint.setWeather();
 
-                                hashMap.put(coordinates, currentPoint);
+                                //hashMap.put(coordinates, currentPoint);
                                 currentPoints.add(currentPoint);
                                 currentPointTableModel.fireTableDataChanged();
-                                //Weather weather = new Weather(currentPoint);
                                 jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
-
-                                //System.out.println(hashMap);
                                 System.out.println(currentPoints);
-                                /*Collections.sort(currentPoints);
-                                System.out.println(currentPoints);*/
+
+                                PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
+
+                                ArrayList<PlaceModel> dgdg = placeSearchGoogleMapsAPI.generateListPlaceModel(
+                                        String.valueOf(currentPoint.getLatitude()),
+                                        String.valueOf(currentPoint.getLongitude()),
+                                        PlaceSearchGoogleMapsAPI.typePlace.lodging,
+                                        "10000");
+
+                                foundPlaces.add(dgdg);
 
 
                                 marker.addEventListener("click", new MapMouseEvent() {

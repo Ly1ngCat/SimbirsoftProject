@@ -10,7 +10,6 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 public abstract class AbstractSampleGoogleMapsAPI {
 
     protected final String KEY_GOOGLE_API = ConfigParse.getValueByKey("src/main/resources/config.properties","KeyGoogleAPI");

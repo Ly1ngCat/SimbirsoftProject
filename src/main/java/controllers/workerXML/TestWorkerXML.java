@@ -13,6 +13,9 @@ public class TestWorkerXML {
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 
+        String test = "dgdgdg";
+        test.charAt(4);
+
         ArrayList<String> ggg = RecommendationParser.getRecomendation("ash", 20);
         for ( String rules : ggg)
             //System.out.println(String.format("Имя сотрудника: %s, его должность: %s", employee.getName(), employee.getJob()));

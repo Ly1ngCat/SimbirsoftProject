@@ -12,7 +12,7 @@ import java.util.*;
 
 public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implements RequestResponseLanguage {
 
-    protected enum typePlace {
+    public enum typePlace {
         accounting, airport, amusement_park, aquarium, art_gallery, atm, bakery, bank, bar, beauty_salon, bicycle_store,
         book_store, bowling_alley, bus_station, cafe, campground, car_dealer, car_rental, car_repair, car_wash, casino, cemetery, church,
         city_hall, clothing_store, convenience_store, courthouse, dentist, department_store, doctor, electrician, electronics_store, embassy,
@@ -29,7 +29,7 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
     public PlaceSearchGoogleMapsAPI() {
     }
 
-    public ArrayList<ArrayList<String>> generateListPlace(String latitude, String longitude, typePlace typePlace, String radius) {
+    public List<ArrayList<String>> generateListPlace(String latitude, String longitude, typePlace typePlace, String radius) {
         String url = createJSONRequest(latitude, longitude, typePlace, radius);
 
         return findPlacesNearby(url);
@@ -57,9 +57,9 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
     }
 
 
-    public ArrayList<ArrayList<String>> findPlacesNearby(String url) {
+    public List<ArrayList<String>> findPlacesNearby(String url) {
 
-        ArrayList<ArrayList<String>> listPlace = new ArrayList<>();
+        List<ArrayList<String>> listPlace = new ArrayList<>();
 
         try {
             JSONObject response = JsonReader.read(url);
@@ -73,8 +73,9 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
             return listPlace;
 
         } catch (Exception e) {//TODO: если рядом не нашел мест, что он должден отдать
+
             e.printStackTrace();
-            return listPlace ;
+            return Collections.emptyList() ;
         }
     }
 
@@ -103,6 +104,8 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
             return null;
         }
     }
+
+
 }
 
 
