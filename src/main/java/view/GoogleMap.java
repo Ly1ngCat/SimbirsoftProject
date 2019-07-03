@@ -51,10 +51,6 @@ public class GoogleMap extends MapView {
                     map.setOptions(options);
                     map.setCenter(new LatLng(54.33346, 48.384337));
                     map.setZoom(9.0);
-                    Marker marker = new Marker(map);
-                    final InfoWindow infoWindow = new InfoWindow(map);
-                    infoWindow.setContent("Нажмите на карту чтобы поставить маркер, нажмите на маркер чтобы удалить его.");
-                    infoWindow.open(map, marker);
 
                     map.addEventListener("click", new MapMouseEvent() {
                         @Override
@@ -63,20 +59,20 @@ public class GoogleMap extends MapView {
                             VisualInterface.DialogDateTimePicker dialogDateTimePicker = new VisualInterface.DialogDateTimePicker();
                             dialogDateTimePicker.setVisible(true);
                             if (isDateTimeSet) {
-                                infoWindow.close();
                                 final Marker marker = new Marker(map);
                                 marker.setPosition(mouseEvent.latLng());
                                 LatLng coordinates = marker.getPosition();
                                 double latitude = coordinates.getLat();
                                 double longitude = coordinates.getLng();
-
+                                InfoWindow infoWindow = new InfoWindow(map);
                                 geocodingAdressGoogleMapsAPI.calculateAdress(latitude + "," + longitude);
                                 currentPoint.setId(++currentPointId);
                                 currentPoint.setLatitude(latitude);
                                 currentPoint.setLongitude(longitude);
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
                                 currentPoint.setWeather();
-
+                                infoWindow.setContent(geocodingAdressGoogleMapsAPI.getAdress());
+                                infoWindow.open(map,marker);
                                 currentPoints.add(currentPoint);
                                 currentPointTableModel.fireTableDataChanged();
                                 //Weather weather = new Weather(currentPoint);
