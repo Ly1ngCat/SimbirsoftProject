@@ -87,7 +87,7 @@ public class UserInterfaceController {
         recomendArea.setLineWrap(true);
         recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
         recomendArea.setBackground(new Color(57, 237, 152));
-        recomendFrame.setTitle("Че то там");
+        recomendFrame.setTitle("Рекомендации для Ваших путешествий");
         JScrollPane jScrollPane = new JScrollPane(recomendArea);
         jScrollPane.setPreferredSize(new Dimension(600, Toolkit.getDefaultToolkit().getScreenSize().height - 200));
         recomendFrame.add(jScrollPane);
