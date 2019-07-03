@@ -16,12 +16,4 @@ public class PlaceModel {
         this.vicinity = vicinity;
         this.rating = rating;
     }
-
-    /*public PlaceModel(ArrayList<String> placeParams){ //TODO: Поправить привязку
-        this.latitude = Double.parseDouble(placeParams.get(0));
-        this.longitude = Double.parseDouble(placeParams.get(1));
-        this.name = placeParams.get(2);
-        this.vicinity = placeParams.get(3);
-        this.rating = Double.parseDouble(placeParams.get(4));
-    }*/
 }

@@ -69,11 +69,12 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
                 listPlace.add(parsePlaceNearby(location));
             }
 
+
             return listPlace;
 
-        } catch (Exception e) {
+        } catch (Exception e) {//TODO: если рядом не нашел мест, что он должден отдать
             e.printStackTrace();
-            return null;
+            return listPlace ;
         }
     }
 
