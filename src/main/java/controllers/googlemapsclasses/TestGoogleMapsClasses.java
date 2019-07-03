@@ -23,8 +23,6 @@ public class TestGoogleMapsClasses {
                 geocodingAdressGoogleMapsAPI.getlongitude()));// итоговая широта и долгота*/
 
 
-
-
        PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
         ArrayList<PlaceModel> ggg = placeSearchGoogleMapsAPI.generateListPlaceModel("-33.8599358","151.2090295",
                 PlaceSearchGoogleMapsAPI.typePlace.lodging,"2500");
