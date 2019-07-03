@@ -2,7 +2,6 @@ package view.GUI;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 import com.teamdev.jxmaps.examples.MapOptionsExample;
-import com.teamdev.jxmaps.internal.internal.ipc.c;
 import model.CurrentPoint;
 import model.CurrentPointTableModel;
 import org.json.JSONException;
@@ -20,24 +19,52 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static view.GUI.VisuaIinterface.DialogDateTimePicker.showAndGetRecommendation;
 
-
-public class VisuaIinterface {
+public class VisualInterface {
     public static JTextArea jTextArea;
     private static JFrame frame;
     public static boolean isDateTimeSet = false;
     public static CurrentPointTableModel currentPointTableModel;
     public static CurrentPoint currentPoint;
-    public static ArrayList<CurrentPoint> currentPoints;
-    public static int curretPointId = 0;
+    private static ArrayList<CurrentPoint> currentPoints;
+    public static int currentPointId = 0;
+    private static JTable jTable;
+    private static JButton getRecommendationButton;
+    private static GoogleMap googleMap;
+    private static JTextField searchField;
+    private static JButton searchButton;
+
+    public static JTable getJTable() {
+        return jTable;
+    }
+
+    public static JButton getGetRecommendationButton() {
+        return getRecommendationButton;
+    }
+
+    public static ArrayList<CurrentPoint> getCurrentPoints() {
+        return currentPoints;
+    }
+
+    public static GoogleMap getGoogleMap() {
+        return googleMap;
+    }
+
+    public static JFrame getFrame() {
+        return frame;
+    }
+
+    public static JTextField getSearchField() { return searchField; }
+
+    public static JButton getSearchButton() { return searchButton; }
+
 
     public static void Interface(String[] args) throws IOException, JSONException {
 
-        final GoogleMap sample = new GoogleMap();
+        googleMap = new GoogleMap();
         frame = new JFrame("Travel Map");
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.add(sample, BorderLayout.CENTER);
+        frame.add(googleMap, BorderLayout.CENTER);
         JPanel jPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         jPanel.setLayout(gbl);
@@ -46,7 +73,7 @@ public class VisuaIinterface {
         currentPointTableModel = new CurrentPointTableModel(currentPoints);
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 3, 4, 2);
-        JTable jTable = new JTable(currentPointTableModel);
+        jTable = new JTable(currentPointTableModel);
         JScrollPane jscrlp = new JScrollPane(jTable);
         jscrlp.setPreferredSize(new Dimension(300, 300));
         c.gridx = 0;
@@ -61,26 +88,7 @@ public class VisuaIinterface {
         c.gridx = 0;
         c.gridy = 2;
         jPanel.add(jscrlp, c);
-        for (int i = 0; i < jTable.getColumnModel().getColumnCount(); i++) {
-            TableColumn tableColumn = jTable.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    tableColumn.setMaxWidth(30);
-                    break;
-                case 1:
-                    tableColumn.setPreferredWidth(140);
-            }
-        }
-        JButton getRecommendationButton = new JButton("Получить рекомендации");
-        getRecommendationButton.addActionListener(e -> {
-            if (currentPoints.size() != 0) {
-                showAndGetRecommendation(sample.allRecommendations(currentPoints), currentPoints);
-            } else {
-                JOptionPane.showMessageDialog(frame, "Выберите хотябы одну точку, для получения реккомендаций",
-                        "Ошибка получения рекомендаций", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
+        getRecommendationButton = new JButton("Получить рекомендации");
         c.gridx = 0;
         c.gridy = 3;
         jPanel.add(getRecommendationButton, c);
@@ -93,7 +101,8 @@ public class VisuaIinterface {
         frame.setVisible(true);
         frame.pack();
     }
-    public static void search() {
+
+    private static void search() {
         JPanel content = new JPanel();
         content.setSize(600, 40);
         content.setBackground(Color.white);
@@ -101,50 +110,24 @@ public class VisuaIinterface {
         GridBagLayout gbl = new GridBagLayout();
         content.setLayout(gbl);
 
-        final JTextField searchField = new JTextField();
+        searchField = new JTextField();
         searchField.setColumns(50);
-        searchField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (searchField.getText().equals("Поиск")) {
-                    searchField.setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (searchField.getText().isEmpty()) {
-                    searchField.setText("Поиск");
-                }
-            }
-        });
-
         searchField.setFont(robotoPlain13);
         searchField.setToolTipText("Введите нужное место");
         searchField.setForeground(new Color(33, 33, 33));
         searchField.setVisible(true);
 
-        JButton searchButton = new JButton();
+        searchButton = new JButton();
         searchButton.setIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search.png")));
         searchButton.setRolloverIcon(new ImageIcon(MapOptionsExample.class.getResource("res/search_hover.png")));
         searchButton.setToolTipText("Поиск");
-        searchButton.addActionListener(e->{
-            searchField.setText("Вы нажали на кнопку Поиска");
-        });
-
-        searchField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                searchField.setText("Вы ввели в строку поиска - " + searchField.getText() + ", и нажати enter");
-            }
-        });
 
         content.add(searchField);
         content.add(searchButton);
 
         frame.add(content, BorderLayout.BEFORE_FIRST_LINE);
     }
+
     public static class DialogDateTimePicker extends JDialog {
         public DialogDateTimePicker() {
             super(frame, "Выбор даты и времени", true);
@@ -170,7 +153,7 @@ public class VisuaIinterface {
                         isDateTimeSet = true;
                         currentPoint = new CurrentPoint();
                         currentPoint.setForecastDate(dateTimePicker.getDateTimePermissive());
-                        hide();
+                        dispose();
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame, "Введите пожалуйста дату и " +
@@ -178,50 +161,6 @@ public class VisuaIinterface {
                 }
 
             });
-        }
-
-        public static void showAndGetRecommendation(List<ArrayList<String>> allRecs, ArrayList<CurrentPoint> currentPoints) {
-            JFrame recomendFrame = new JFrame();
-            JTextArea recomendArea = new JTextArea(10, 50);
-            recomendFrame.setLayout(new FlowLayout());
-            recomendArea.setLineWrap(true);
-            recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
-            recomendArea.setBackground(new Color(57, 237, 152));
-            recomendFrame.setTitle("Рекомендации для ваших путешествий");
-            JScrollPane jScrollPane = new JScrollPane(recomendArea);
-            jScrollPane.setPreferredSize(new Dimension(600, Toolkit.getDefaultToolkit().getScreenSize().height - 200));
-            recomendFrame.add(jScrollPane);
-            recomendArea.append("Информация по выбранным местам для путешествия: \n\n");
-            for (int i = 0; i < currentPoints.size(); i++) {
-                recomendArea.append("Дата: " + currentPoints.get(i).getForecastDate()
-                        .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
-                        + ".\nМесто: " + currentPoints.get(i).getAdressString()
-                        + ".\nТемпература: " + currentPoints.get(i).weather.predictedTemp + " C"
-                        + ".\nВетер: " + currentPoints.get(i).weather.windSpeed + " м/с.");
-                recomendArea.append("\nРекомендуем взять с собой следующие вещи:");
-                recomendArea.append("\nОдежду: " + allRecs.get(i).get(1));
-                recomendArea.append("\nАксессуары: " + allRecs.get(i).get(0) + "\n\n");
-            }
-            recomendFrame.setVisible(true);
-            recomendFrame.pack();
-        }
-
-        public static CurrentPoint getCurrentPointByCoordinates(double latitude, double longitude) {
-            for (CurrentPoint point : currentPoints) {
-                if (point.getLatitude() == latitude && point.getLongitude() == longitude) {
-                    return point;
-                }
-            }
-            return null;
-
-        }
-
-        public static void fixIds() {
-            int id = 1;
-            for (CurrentPoint point : currentPoints) {
-                point.setId(id++);
-            }
-            curretPointId = currentPoints.size();
         }
 
     }
