@@ -62,6 +62,7 @@ public class DirectionGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implemen
     }
 
 
+
     public void calculateRouteWithCurrentModel(CurrentPoint origin, CurrentPoint destination, travelModes travelModes) throws IOException, JSONException {
 
         String stringOrigin = assignValueAddresses(origin);
