@@ -88,10 +88,10 @@ public class VisualInterface {
         jTextArea = new JTextArea("", 3, 30);
         jTextArea.setLineWrap(true);
         jTextArea.setFont(new Font("Arial", Font.ITALIC, 14));
-        jPanel.add(new JLabel("Выбранное местоположение"), c);
-        c.gridx = 0;
+        jPanel.add(new JLabel("Выбранные местоположения"), c);
+        /*c.gridx = 0;
         c.gridy = 1;
-        jPanel.add(jTextArea, c);
+        jPanel.add(jTextArea, c);*/ // неактуально, изза infowindow по карте
         c.gridx = 0;
         c.gridy = 2;
         jPanel.add(jscrlp, c);
