@@ -73,7 +73,7 @@ public class VisualInterface {
         jPanel.setLayout(gbl);
         jPanel.setBackground(new Color(150, 237, 148));
 
-        currentPoints = new ArrayList<>();
+        currentPoints = new ArrayList<CurrentPoint>();
         currentPointTableModel = new CurrentPointTableModel(currentPoints);
         //foundPlaces=new ArrayList<>();
 
