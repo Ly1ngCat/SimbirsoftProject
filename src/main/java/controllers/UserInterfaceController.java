@@ -83,17 +83,16 @@ public class UserInterfaceController {
     }
 
     private static void showAndGetRecommendation(List<ArrayList<String>> allRecs, ArrayList<CurrentPoint> currentPoints) {
-        //List<ArrayList<PlaceModel>> foundPlaces=new ArrayList<>();
-        JFrame recommednFrame = new JFrame();
+        JFrame recommendFrame = new JFrame();
         JTextArea recommendArea = new JTextArea(10, 50);
-        recommednFrame.setLayout(new FlowLayout());
+        recommendFrame.setLayout(new FlowLayout());
         recommendArea.setLineWrap(true);
         recommendArea.setFont(new Font("Arial", Font.PLAIN, 14));
         recommendArea.setBackground(new Color(57, 237, 152));
-        recommednFrame.setTitle("Рекомендации для ваших путешествий");
+        recommendFrame.setTitle("Рекомендации для ваших путешествий");
         JScrollPane jScrollPane = new JScrollPane(recommendArea);
         jScrollPane.setPreferredSize(new Dimension(600, Toolkit.getDefaultToolkit().getScreenSize().height - 200));
-        recommednFrame.add(jScrollPane);
+        recommendFrame.add(jScrollPane);
         recommendArea.append("Информация по выбранным местам для путешествия: \n\n");
         for (int i = 0; i < currentPoints.size(); i++) {
             PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
@@ -127,8 +126,8 @@ public class UserInterfaceController {
                 recommendArea.append("К сожалению округе отели не найдены :(\n\n");
             }
         }
-        recommednFrame.setVisible(true);
-        recommednFrame.pack();
+        recommendFrame.setVisible(true);
+        recommendFrame.pack();
     }
 
 }
