@@ -1,5 +1,6 @@
 package controllers;
 
+import constants.Constant;
 import controllers.googlemapsclasses.PlaceSearchGoogleMapsAPI;
 import model.CurrentPoint;
 import model.PlaceModel;
@@ -98,8 +99,6 @@ public class UserInterfaceController {
 
         Style style = context.getStyle(StyleContext.DEFAULT_STYLE);
         StyleConstants.setAlignment(style, StyleConstants.ALIGN_LEFT);
-        StyleConstants.setFontFamily(style, "Arial");
-        StyleConstants.setFontSize(style, 30);
         StyleConstants.setForeground(style, new Color(129,123,70));
         SimpleAttributeSet attributesBold = new SimpleAttributeSet();
         StyleConstants.setBold(attributesBold, true);
@@ -117,7 +116,7 @@ public class UserInterfaceController {
                     String.valueOf(currentPoints.get(i).getLatitude()),
                     String.valueOf(currentPoints.get(i).getLongitude()),
                     PlaceSearchGoogleMapsAPI.typePlace.lodging,
-                    "10000");
+                    Constant.RADIUS);
             try {
                 document.insertString(document.getLength(), "Дата: ",
                         attributesBold);
@@ -214,6 +213,7 @@ public class UserInterfaceController {
 
         JTextPane textPane = new JTextPane(document);
         textPane.setBackground(new Color(234,230,210));
+        textPane.setFont(new Font("Arial", Font.PLAIN, 14));
         JScrollPane scrollPane = new JScrollPane(textPane);
         scrollPane.setPreferredSize(new Dimension(600, Toolkit.getDefaultToolkit().getScreenSize().height-100));
         content.add(scrollPane, BorderLayout.CENTER);
