@@ -13,7 +13,7 @@ public  class RecommendationParser {
 
      public RecommendationParser() { }
 
-   static public ArrayList<String> getRecomendation(String typeWeather, double temperature) {
+   static public ArrayList<String> getRecommendation(String typeWeather, double temperature) {
 
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();

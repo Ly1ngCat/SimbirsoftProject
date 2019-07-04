@@ -27,11 +27,14 @@ public class CurrentPointTableModel extends AbstractTableModel {
             case 0:
                 return currentPoints.get(r).getId();
             case 1:
-                return currentPoints.get(r).getAdressString();
+                return currentPoints.get(r).getAddress();
             case 2:
-                return currentPoints.get(r).getForecastDate().toString();
-                default:
-                    return "";
+            {
+                String []dateTimeSplitted = currentPoints.get(r).getForecastDate().toString().split("T");
+                return dateTimeSplitted[0] + " " + dateTimeSplitted[1];
+            }
+            default:
+                return "";
         }
     }
 

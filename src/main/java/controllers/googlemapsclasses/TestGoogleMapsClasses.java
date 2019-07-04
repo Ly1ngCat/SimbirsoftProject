@@ -33,7 +33,7 @@ public class TestGoogleMapsClasses {
         String hhh = "ddgdg";
         String hhhh = "dgdg";
        PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
-        List<PlaceModel> ggg = placeSearchGoogleMapsAPI.generateListPlaceModel("-33.8599358","151.2090295",
+       List<PlaceModel> ggg = placeSearchGoogleMapsAPI.generateListPlaceModel("-33.8599358","151.2090295",
                 PlaceSearchGoogleMapsAPI.typePlace.lodging,"2500");
     }
 }

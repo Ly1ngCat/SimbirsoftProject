@@ -30,8 +30,8 @@ public class WeatherParser
         propertyConfig.load(fisConfig);
         params.put("appid",propertyConfig.getProperty("OWMKey"));
         params.put("units","metric");
-        params.put("lat",""+point.latitude);
-        params.put("lon",""+point.longitude);
+        params.put("lat",""+point.getLatitude());
+        params.put("lon",""+point.getLongitude());
 
         final String url=urlForecast+ JsonReader.encodeParams(params);
 

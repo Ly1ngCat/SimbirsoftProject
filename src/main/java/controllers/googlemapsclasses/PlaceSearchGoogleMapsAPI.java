@@ -53,7 +53,7 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
     }
 
     private String createJSONRequest(CurrentPoint currentPoint, typePlace typePlace, String radius) {
-        return createJSONRequest(String.valueOf(currentPoint.latitude), String.valueOf(currentPoint.longitude), typePlace, radius);
+        return createJSONRequest(String.valueOf(currentPoint.getLatitude()), String.valueOf(currentPoint.getLongitude()), typePlace, radius);
     }
 
 

@@ -1,6 +1,8 @@
 package controllers;
 
+import controllers.googlemapsclasses.PlaceSearchGoogleMapsAPI;
 import model.CurrentPoint;
+import model.PlaceModel;
 import view.GUI.VisualInterface;
 import view.GoogleMap;
 
@@ -46,7 +48,7 @@ public class UserInterfaceController {
             if (currentPoints.size() != 0) {
                 showAndGetRecommendation(googleMap.allRecommendations(currentPoints), currentPoints);
             } else {
-                JOptionPane.showMessageDialog(frame, "Выберите хотябы одну точку, для получения реккомендаций",
+                JOptionPane.showMessageDialog(frame, "Выберите хотя бы одну точку для получения рекомендаций",
                         "Ошибка получения рекомендаций", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -75,35 +77,58 @@ public class UserInterfaceController {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                    searchField.setText("Вы ввели в строку поиска - " + searchField.getText() + ", и нажати enter");
+                    searchField.setText("Вы ввели в строку поиска - " + searchField.getText() + ", и нажали enter");
             }
         });
     }
 
     private static void showAndGetRecommendation(List<ArrayList<String>> allRecs, ArrayList<CurrentPoint> currentPoints) {
-        JFrame recomendFrame = new JFrame();
-        JTextArea recomendArea = new JTextArea(10, 50);
-        recomendFrame.setLayout(new FlowLayout());
-        recomendArea.setLineWrap(true);
-        recomendArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        recomendArea.setBackground(new Color(57, 237, 152));
-        recomendFrame.setTitle("Рекомендации для ваших путешествий");
-        JScrollPane jScrollPane = new JScrollPane(recomendArea);
+        //List<ArrayList<PlaceModel>> foundPlaces=new ArrayList<>();
+        JFrame recommednFrame = new JFrame();
+        JTextArea recommendArea = new JTextArea(10, 50);
+        recommednFrame.setLayout(new FlowLayout());
+        recommendArea.setLineWrap(true);
+        recommendArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        recommendArea.setBackground(new Color(57, 237, 152));
+        recommednFrame.setTitle("Рекомендации для ваших путешествий");
+        JScrollPane jScrollPane = new JScrollPane(recommendArea);
         jScrollPane.setPreferredSize(new Dimension(600, Toolkit.getDefaultToolkit().getScreenSize().height - 200));
-        recomendFrame.add(jScrollPane);
-        recomendArea.append("Информация по выбранным местам для путешествия: \n\n");
+        recommednFrame.add(jScrollPane);
+        recommendArea.append("Информация по выбранным местам для путешествия: \n\n");
         for (int i = 0; i < currentPoints.size(); i++) {
-            recomendArea.append("Дата: " + currentPoints.get(i).getForecastDate()
+            PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
+            ArrayList<PlaceModel> foundPlaces = placeSearchGoogleMapsAPI.generateListPlaceModel(
+                    String.valueOf(currentPoints.get(i).getLatitude()),
+                    String.valueOf(currentPoints.get(i).getLongitude()),
+                    PlaceSearchGoogleMapsAPI.typePlace.lodging,
+                    "10000");
+            
+            recommendArea.append("Дата: " + currentPoints.get(i).getForecastDate()
                     .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
-                    + ".\nМесто: " + currentPoints.get(i).getAdressString()
-                    + ".\nТемпература: " + currentPoints.get(i).weather.predictedTemp + " C"
-                    + ".\nВетер: " + currentPoints.get(i).weather.windSpeed + " м/с.");
-            recomendArea.append("\nРекомендуем взять с собой следующие вещи:");
-            recomendArea.append("\nОдежду: " + allRecs.get(i).get(1));
-            recomendArea.append("\nАксессуары: " + allRecs.get(i).get(0) + "\n\n");
+                    + ".\nМесто: " + currentPoints.get(i).getAddress()
+                    + ".\nТемпература: " + currentPoints.get(i).getWeather().getPredictedTemp() + " C"
+                    + ".\nВетер: " + currentPoints.get(i).getWeather().getWindSpeed() + " м/с.");
+            recommendArea.append("\nРекомендуем взять с собой следующие вещи:");
+            recommendArea.append("\nОдежду: " + allRecs.get(i).get(1));
+            recommendArea.append("\nАксессуары: " + allRecs.get(i).get(0) + "\n\n");
+
+            if (foundPlaces != null && foundPlaces.size()!= 0)
+            {
+                recommendArea.append("Вы можете в округе найти следующие отели:\n\n");
+                for (int j=0;j<foundPlaces.size();j++)
+                {
+                    recommendArea.append("Название: " +foundPlaces.get(j).name
+                            +".\nАдрес: "+foundPlaces.get(j).vicinity
+                            +".\nРейтинг: "+foundPlaces.get(j).rating+"\n\n");
+                }
+            }
+            else
+            {
+                recommendArea.append("К сожалению округе отели не найдены :(\n\n");
+            }
         }
-        recomendFrame.setVisible(true);
-        recomendFrame.pack();
+        recommednFrame.setVisible(true);
+        recommednFrame.pack();
     }
 
 }

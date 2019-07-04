@@ -73,16 +73,16 @@ public class DirectionGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implemen
 
     private String assignValueAddresses(CurrentPoint origin) {
         String adress;
-        if (origin.latitude != 0 & origin.longitude != 0) {
-            adress = String.valueOf(origin.latitude) + "," + String.valueOf(origin.longitude);
+        if (origin.getLatitude() != 0 & origin.getLongitude() != 0) {
+            adress = String.valueOf(origin.getLatitude()) + "," + String.valueOf(origin.getLongitude());
         } else {
-            adress = origin.adressString;
+            adress = origin.getAddress();
         }
         return adress;
     }
 
 
-    public String getDitanceString() {
+    public String getDistanceString() {
         return distance;
     }
 

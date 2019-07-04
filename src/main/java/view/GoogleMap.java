@@ -3,18 +3,14 @@ package view;
 import com.teamdev.jxmaps.Map;
 
 import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
-import controllers.googlemapsclasses.PlaceSearchGoogleMapsAPI;
 import controllers.workerXML.RecommendationParser;
-import library.ArrayListToPlaceModelParse;
-import library.ConfigParse;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
-import model.PlaceModel;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.HashMap;
+
 import view.GUI.VisualInterface;
 import java.util.*;
 import java.util.List;
@@ -24,14 +20,12 @@ import static view.GUI.VisualInterface.*;
 
 public class GoogleMap extends MapView {
 
-    private List<ArrayList<String>> allRecs;
-
     public List<ArrayList<String>> allRecommendations(ArrayList<CurrentPoint> points) {
         Collections.sort(points); //сортируем массив маркеров по ДАТЕ в порядке возрастания
-        allRecs = new ArrayList<>();
+        List<ArrayList<String>> allRecs = new ArrayList<>();
         for (int i = 0; i < points.size(); i++) {
-            allRecs.add(RecommendationParser.getRecomendation(points.get(i).weather.weatherType.toLowerCase(),
-                    points.get(i).weather.predictedTemp));
+            allRecs.add(RecommendationParser.getRecommendation(points.get(i).getWeather().getWeatherType().toLowerCase(),
+                    points.get(i).getWeather().getPredictedTemp()));
         }
         return allRecs;
     }
@@ -55,12 +49,11 @@ public class GoogleMap extends MapView {
                     map.setCenter(new LatLng(54.33346, 48.384337));
                     map.setZoom(9.0);
 
-
                     map.addEventListener("click", new MapMouseEvent() {
                         @Override
                         public void onEvent(MouseEvent mouseEvent) {
                             isDateTimeSet = false;
-                            VisualInterface.DialogDateTimePicker dialogDateTimePicker = new VisualInterface.DialogDateTimePicker();
+                            DialogDateTimePicker dialogDateTimePicker = new DialogDateTimePicker();
                             dialogDateTimePicker.setVisible(true);
                             if (isDateTimeSet) {
                                 final Marker marker = new Marker(map);
@@ -73,27 +66,15 @@ public class GoogleMap extends MapView {
                                 currentPoint.setId(++currentPointId);
                                 currentPoint.setLatitude(latitude);
                                 currentPoint.setLongitude(longitude);
-                                currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
-                                currentPoint.setWeather();
+                                currentPoint.setAddress(geocodingAdressGoogleMapsAPI.getAddress());
+                                currentPoint.initializeWeather();
                                 InfoWindow infoWindow = new InfoWindow(map);
-                                infoWindow.setContent(geocodingAdressGoogleMapsAPI.getAdress());
+                                infoWindow.setContent(geocodingAdressGoogleMapsAPI.getAddress());
                                 infoWindow.open(map,marker);
                                 currentPoints.add(currentPoint);
                                 currentPointTableModel.fireTableDataChanged();
-                                jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
+                                jTextArea.setText(geocodingAdressGoogleMapsAPI.getAddress());
                                 System.out.println(currentPoints);
-
-                                PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
-
-                                /*ArrayList<PlaceModel> dgdg = placeSearchGoogleMapsAPI.generateListPlaceModel(
-                                        String.valueOf(currentPoint.getLatitude()),
-                                        String.valueOf(currentPoint.getLongitude()),
-                                        PlaceSearchGoogleMapsAPI.typePlace.lodging,
-                                        "10000");
-
-                                foundPlaces.add(dgdg);*/
-
-
                                 marker.addEventListener("click", new MapMouseEvent() {
                                     @Override
                                     public void onEvent(MouseEvent mouseEvent) {

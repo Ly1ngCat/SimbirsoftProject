@@ -29,7 +29,6 @@ public class VisualInterface {
     public static boolean isDateTimeSet = false;
     public static CurrentPointTableModel currentPointTableModel;
     public static CurrentPoint currentPoint;
-    public static List<ArrayList<PlaceModel>> foundPlaces;
 
     private static ArrayList<CurrentPoint> currentPoints;
     public static int currentPointId = 0;
@@ -76,7 +75,7 @@ public class VisualInterface {
 
         currentPoints = new ArrayList<>();
         currentPointTableModel = new CurrentPointTableModel(currentPoints);
-        foundPlaces=new ArrayList<>();
+        //foundPlaces=new ArrayList<>();
 
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 3, 4, 2);
@@ -89,9 +88,6 @@ public class VisualInterface {
         jTextArea.setLineWrap(true);
         jTextArea.setFont(new Font("Arial", Font.ITALIC, 14));
         jPanel.add(new JLabel("Выбранные местоположения"), c);
-        /*c.gridx = 0;
-        c.gridy = 1;
-        jPanel.add(jTextArea, c);*/ // неактуально, изза infowindow по карте
         c.gridx = 0;
         c.gridy = 2;
         jPanel.add(jscrlp, c);
@@ -163,7 +159,7 @@ public class VisualInterface {
                         dispose();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Введите пожалуйста дату и " +
+                    JOptionPane.showMessageDialog(frame, "Введите, пожалуйста, дату и " +
                             "время нахождения в указанной точке", "Не введена дата или время", JOptionPane.WARNING_MESSAGE);
                 }
 

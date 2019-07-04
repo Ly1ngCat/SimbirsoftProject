@@ -17,7 +17,7 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
 
     private double longitude = 0; //долгота
     private double latitude = 0;//широта
-    private String adress = "";//адресс
+    private String address = "";//адресс
 
     private enum selectionTypeAdress {address, latlng}
 
@@ -55,10 +55,10 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
             final JSONObject location = response.getJSONArray("results").getJSONObject(0);
             final String formattedAddress = location.getString("formatted_address");
             System.out.println(formattedAddress);// итоговый адрес
-            adress = formattedAddress;
+            address = formattedAddress;
             //System.out.println(String.format("%f,%f", latitude, longitude));// итоговая широта и долгота
         }catch (JSONException | IOException e) {
-            adress = "";
+            address = "";
             e.printStackTrace();
         }
     }
@@ -94,7 +94,7 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
 
         return new CurrentPoint(getlongitude(),
                 getlatitude(),
-                adress,
+                address,
                 null);
     }
 
@@ -112,7 +112,7 @@ public class GeocodingAdressGoogleMapsAPI extends AbstractSampleGoogleMapsAPI im
         return latitude + "," + latitude;
     }
 
-    public String getAdress(){
-        return adress;
+    public String getAddress(){
+        return address;
     }
 }
