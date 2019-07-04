@@ -1,8 +1,9 @@
 import com.teamdev.jxmaps.LatLng;
+import controllers.UserInterfaceController;
 import model.CurrentPoint;
 import net.aksingh.owmjapis.api.APIException;
 import org.json.JSONException;
-import view.GUI.VisuaIinterface;
+import view.GUI.VisualInterface;
 import view.GoogleMap;
 import controllers.openweathermapclasses.*;
 
@@ -13,6 +14,8 @@ public class Main {
 
     public static void main(String[] args) throws APIException, JSONException, IOException {
 
-        VisuaIinterface.Interface(args);
+        VisualInterface.Interface(args);
+        UserInterfaceController uic = new UserInterfaceController();
+        uic.initController();
     }
 }

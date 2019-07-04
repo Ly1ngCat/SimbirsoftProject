@@ -12,16 +12,14 @@ import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;
 import model.PlaceModel;
 import org.json.JSONException;
-import view.GUI.VisuaIinterface;
 
 import java.io.IOException;
 import java.util.HashMap;
+import view.GUI.VisualInterface;
 import java.util.*;
 import java.util.List;
+import static view.GUI.VisualInterface.*;
 
-import static view.GUI.VisuaIinterface.*;
-import static view.GUI.VisuaIinterface.DialogDateTimePicker.fixIds;
-import static view.GUI.VisuaIinterface.DialogDateTimePicker.getCurrentPointByCoordinates;
 
 
 public class GoogleMap extends MapView {
@@ -47,8 +45,7 @@ public class GoogleMap extends MapView {
             public void onMapReady(MapStatus status) {
                 if (status == MapStatus.MAP_STATUS_OK) {
 
-                    //HashMap<LatLng, CurrentPoint> hashMap = new HashMap<>();
-
+                    ArrayList<CurrentPoint> currentPoints = VisualInterface.getCurrentPoints();
                     final Map map = getMap();
                     MapOptions options = new MapOptions();
                     MapTypeControlOptions controlOptions = new MapTypeControlOptions();
@@ -57,19 +54,15 @@ public class GoogleMap extends MapView {
                     map.setOptions(options);
                     map.setCenter(new LatLng(54.33346, 48.384337));
                     map.setZoom(9.0);
-                    Marker marker = new Marker(map);
-                    final InfoWindow infoWindow = new InfoWindow(map);
-                    infoWindow.setContent("Нажмите на карту чтобы поставить маркер, нажмите на маркер чтобы удалить его.");
-                    infoWindow.open(map, marker);
+
 
                     map.addEventListener("click", new MapMouseEvent() {
                         @Override
                         public void onEvent(MouseEvent mouseEvent) {
                             isDateTimeSet = false;
-                            VisuaIinterface.DialogDateTimePicker dialogDateTimePicker = new VisuaIinterface.DialogDateTimePicker();
+                            VisualInterface.DialogDateTimePicker dialogDateTimePicker = new VisualInterface.DialogDateTimePicker();
                             dialogDateTimePicker.setVisible(true);
                             if (isDateTimeSet) {
-                                infoWindow.close();
                                 final Marker marker = new Marker(map);
                                 marker.setPosition(mouseEvent.latLng());
                                 LatLng coordinates = marker.getPosition();
@@ -77,13 +70,14 @@ public class GoogleMap extends MapView {
                                 double longitude = coordinates.getLng();
 
                                 geocodingAdressGoogleMapsAPI.calculateAdress(latitude + "," + longitude);
-                                currentPoint.setId(++curretPointId);
+                                currentPoint.setId(++currentPointId);
                                 currentPoint.setLatitude(latitude);
                                 currentPoint.setLongitude(longitude);
                                 currentPoint.setAdressString(geocodingAdressGoogleMapsAPI.getAdress());
                                 currentPoint.setWeather();
-
-                                //hashMap.put(coordinates, currentPoint);
+                                InfoWindow infoWindow = new InfoWindow(map);
+                                infoWindow.setContent(geocodingAdressGoogleMapsAPI.getAdress());
+                                infoWindow.open(map,marker);
                                 currentPoints.add(currentPoint);
                                 currentPointTableModel.fireTableDataChanged();
                                 jTextArea.setText(geocodingAdressGoogleMapsAPI.getAdress());
@@ -91,13 +85,13 @@ public class GoogleMap extends MapView {
 
                                 PlaceSearchGoogleMapsAPI placeSearchGoogleMapsAPI = new PlaceSearchGoogleMapsAPI();
 
-                                ArrayList<PlaceModel> dgdg = placeSearchGoogleMapsAPI.generateListPlaceModel(
+                                /*ArrayList<PlaceModel> dgdg = placeSearchGoogleMapsAPI.generateListPlaceModel(
                                         String.valueOf(currentPoint.getLatitude()),
                                         String.valueOf(currentPoint.getLongitude()),
                                         PlaceSearchGoogleMapsAPI.typePlace.lodging,
                                         "10000");
 
-                                foundPlaces.add(dgdg);
+                                foundPlaces.add(dgdg);*/
 
 
                                 marker.addEventListener("click", new MapMouseEvent() {
@@ -110,10 +104,8 @@ public class GoogleMap extends MapView {
                                         currentPoints.remove(getCurrentPointByCoordinates(latitude, longitude));
                                         fixIds();
                                         currentPointTableModel.fireTableDataChanged();
-                                        //System.out.println(currentPoints);
                                         System.out.println(allRecommendations(currentPoints));
-                                        //hashMap.remove(coordinates);
-                                        //System.out.println(hashMap);
+
                                     }
                                 });
                             }
@@ -123,5 +115,22 @@ public class GoogleMap extends MapView {
                 }
             }
         });
+    }
+
+    private CurrentPoint getCurrentPointByCoordinates(double latitude, double longitude) {
+        for (CurrentPoint point : getCurrentPoints()) {
+            if (point.getLatitude() == latitude && point.getLongitude() == longitude) {
+                return point;
+            }
+        }
+        return null;
+    }
+
+    private static void fixIds() {
+        int id = 1;
+        for (CurrentPoint point : getCurrentPoints()) {
+            point.setId(id++);
+        }
+        currentPointId = getCurrentPoints().size();
     }
 }
