@@ -14,25 +14,34 @@
             <groupId>com.google</groupId>
             <artifactId>jxmaps-1.3.1</artifactId>
             <version>1.3.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/jxmaps-1.3.1.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.google</groupId>
             <artifactId>jxmapsdemo</artifactId>
             <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/jxmapsdemo.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.google</groupId>
             <artifactId>jxmaps-win-1.3.1</artifactId>
             <version>1.3.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/jxmaps-win-1.3.1.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.local</groupId>
             <artifactId>LGoodDatePicker-10.4.1</artifactId>
             <version>10.4.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/LGoodDatePicker-10.4.1.jar</systemPath>
         </dependency>
+
         <!-- IRR_end -->
         <!--SDV_start_____________________________________-->
         <dependency>
