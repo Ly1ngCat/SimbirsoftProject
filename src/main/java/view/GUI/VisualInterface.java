@@ -2,24 +2,18 @@ package view.GUI;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 import com.teamdev.jxmaps.examples.MapOptionsExample;
-import com.teamdev.jxmaps.internal.internal.ipc.c;
 import model.CurrentPoint;
 import model.CurrentPointTableModel;
-import model.PlaceModel;
 import org.json.JSONException;
 import view.GoogleMap;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 
 
@@ -71,11 +65,10 @@ public class VisualInterface {
         JPanel jPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         jPanel.setLayout(gbl);
-        jPanel.setBackground(new Color(150, 237, 148));
+        jPanel.setBackground(new Color(198,248,255));
 
         currentPoints = new ArrayList<CurrentPoint>();
         currentPointTableModel = new CurrentPointTableModel(currentPoints);
-        //foundPlaces=new ArrayList<>();
 
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 3, 4, 2);

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import library.ArrayListToPlaceModelParse;
 import model.CurrentPoint;
 import model.PlaceModel;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,9 +64,10 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
 
         try {
             JSONObject response = JsonReader.read(url);
-
-            for (int indexPlace = 0; indexPlace < response.length(); indexPlace++) {
-                final JSONObject location = response.getJSONArray("results").getJSONObject(indexPlace);
+            JSONArray results = response.getJSONArray("results");
+            int jsonLength=results.length();
+            for (int indexPlace = 0; indexPlace < jsonLength; indexPlace++) {
+                final JSONObject location = results.getJSONObject(indexPlace);
                 listPlace.add(parsePlaceNearby(location));
             }
 
@@ -84,11 +86,13 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
         try {
             ArrayList<String> listLine = new ArrayList<>();
 
-            double latitude = location.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
-            double longitude = location.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-            String name = location.getString("name");
-            String vicinity = location.getString("vicinity");
-            double rating = location.getDouble("rating");
+            double latitude = Double.parseDouble(hasJSONAttribute(location.getJSONObject("geometry").getJSONObject("location"),
+                    "lat"));
+            double longitude = Double.parseDouble(hasJSONAttribute(location.getJSONObject("geometry").getJSONObject("location"),
+                    "lng"));
+            String name = hasJSONAttribute(location,"name");
+            String vicinity =  hasJSONAttribute(location,"vicinity");
+            double rating = Double.parseDouble(hasJSONAttribute(location, "rating"));
 
             listLine.add(String.valueOf(latitude));
             listLine.add(String.valueOf(longitude));
@@ -103,6 +107,10 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
             e.printStackTrace();
             return null;
         }
+    }
+
+    private String hasJSONAttribute(JSONObject object, String attribute) throws JSONException {
+        return object.has(attribute) ? object.get(attribute).toString() : "0";
     }
 
 
