@@ -35,7 +35,7 @@ public class WeatherParser
 
         final String url=urlForecast+ JsonReader.encodeParams(params);
 
-        try
+        try //TODO: очень очень много try catch, лучше разделить на разные методы
         {
             JSONObject response = JsonReader.read(url); // делаем запрос к вебсервису и получаем от него ответ JSON
             HashMap<String, String> conditions=new HashMap<>();

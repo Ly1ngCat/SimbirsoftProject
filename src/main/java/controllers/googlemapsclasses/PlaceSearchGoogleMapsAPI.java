@@ -74,7 +74,7 @@ public class PlaceSearchGoogleMapsAPI extends AbstractSampleGoogleMapsAPI implem
 
             return listPlace;
 
-        } catch (Exception e) {//TODO: если рядом не нашел мест, что он должден отдать
+        } catch (Exception e) {
 
             e.printStackTrace();
             return Collections.emptyList() ;
