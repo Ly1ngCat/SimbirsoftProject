@@ -2,8 +2,8 @@ package view;
 
 import com.teamdev.jxmaps.Map;
 
-import controllers.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
-import controllers.workerXML.RecommendationParser;
+import library.googlemapsclasses.GeocodingAdressGoogleMapsAPI;
+import library.workerXML.RecommendationParser;
 import model.CurrentPoint;
 import com.teamdev.jxmaps.*;
 import com.teamdev.jxmaps.swing.MapView;

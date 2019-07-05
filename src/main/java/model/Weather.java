@@ -1,9 +1,7 @@
 package model;
 
-import java.io.IOException;
 import java.util.Map;
-import controllers.openweathermapclasses.WeatherParser;
-import org.json.JSONException;
+import library.openweathermapclasses.WeatherParser;
 
 public class Weather
 {

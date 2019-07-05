@@ -1,7 +1,7 @@
 package controllers;
 
 import constants.Constant;
-import controllers.googlemapsclasses.PlaceSearchGoogleMapsAPI;
+import library.googlemapsclasses.PlaceSearchGoogleMapsAPI;
 import model.CurrentPoint;
 import model.PlaceModel;
 import view.GUI.VisualInterface;
